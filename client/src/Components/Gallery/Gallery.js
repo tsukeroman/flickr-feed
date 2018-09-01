@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import Image from '../Image/Image';
+import uuid from 'uuid';
 import './Gallery.css';
 
 class Gallery extends React.Component {
@@ -100,8 +101,8 @@ class Gallery extends React.Component {
   render() {
     return (
       <div className="gallery-root">
-        {this.state.images.map((dto, index) => {
-          return <Image key={'image-' + dto.id + index} dto={dto} galleryWidth={this.state.galleryWidth} />;
+        {this.state.images.map(dto => {
+          return <Image key={uuid.v4()} dto={dto} galleryWidth={this.state.galleryWidth} />;
         })}
       </div>
     );
