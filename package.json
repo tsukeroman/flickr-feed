@@ -1,0 +1,38 @@
+{
+  "name": "flickr-feed",
+  "version": "1.0.0",
+  "description": "A web app that simuates a social network based on Flickr API",
+  "main": "server.js",
+  "scripts": {
+    "start": "set DEBUG=app, set app:* & nodemon app.js",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsukeroman/flickr-feed.git"
+  },
+  "author": "tsukeroman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tsukeroman/flickr-feed/issues"
+  },
+  "homepage": "https://github.com/tsukeroman/flickr-feed#readme",
+  "dependencies": {
+    "chalk": "2.4.1",
+    "debug": "3.1.0",
+    "express": "4.16.3",
+    "morgan": "1.9.0",
+    "nodemon": "1.18.4"
+  },
+  "nodemonConfig": {
+    "restartable": "rs",
+    "ignore": [
+      "node_modules/**/node_modules"
+    ],
+    "delay": "2500",
+    "env": {
+      "NODE_ENV": "development",
+      "PORT": 5000
+    }
+  }
+}
