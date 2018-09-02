@@ -1,6 +1,5 @@
 # flick-feed
 
-This project was bootstrapped with Create React App.
 flickr-feed is a web app that simulates a social network, based on Flickr API.
 ________________________________________
 
