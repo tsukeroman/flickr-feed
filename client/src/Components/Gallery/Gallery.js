@@ -47,6 +47,9 @@ class Gallery extends React.Component {
           res.photos.photo &&
           res.photos.photo.length > 0
         ) {
+          if (this.isUnmounted) {
+            return;
+          }
           this.setState({
             images: [...this.state.images, ...res.photos.photo],
             scrolling: false,
@@ -92,6 +95,7 @@ class Gallery extends React.Component {
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
     window.removeEventListener('scroll', this.handleScroll);
+    this.isUnmounted = true; // Kills not returned promises
   }
 
   componentWillReceiveProps(props) {

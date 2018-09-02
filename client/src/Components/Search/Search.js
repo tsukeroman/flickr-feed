@@ -10,7 +10,7 @@ class Search extends React.Component {
   constructor() {
     super();
     this.state = {
-      value: '',
+      value: ''
     };
   }
 

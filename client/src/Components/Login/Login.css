@@ -1,0 +1,15 @@
+.Login {
+	margin-left: 40px;
+	margin-right: 40px;
+	margin-top: 20px;
+	padding-top: 70px;
+}
+
+.SignUp {
+	margin-top: 10px;
+	text-align: center;
+}
+
+.SignUpLink {
+	text-decoration: none;
+}

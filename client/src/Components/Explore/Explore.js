@@ -4,10 +4,11 @@ import Search from '../Search/Search';
 import Gallery from '../Gallery/Gallery';
 
 class Explore extends Component {
+
 	constructor() {
 		super();
 		this.state = {
-			tag: ' '
+			tag: ''
 		};
 	}
 	

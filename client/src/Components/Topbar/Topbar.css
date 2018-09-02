@@ -30,8 +30,10 @@
 	color: #e0e3e5;
 }
 
-.log {
+.logout {
+	cursor: pointer;
 	position: absolute;
+	padding-top: 0px;
 	right: 33px;
 	text-decoration: none;
 	font-weight: bold;
@@ -40,7 +42,7 @@
 	color: #d6d8db;
 }
 
-.log:hover {
+.logout:hover {
 	color: #e0e3e5;
 }
 

@@ -1,0 +1,16 @@
+.SignInForm {
+	text-align: center;
+	vertical-align: center;
+}
+
+.user {
+	margin-top: 15px;
+	margin-left: 5px;
+}
+
+.password {
+	margin-top: 5px;
+	margin-left: 5px;
+	margin-bottom: 10px;
+}
+
