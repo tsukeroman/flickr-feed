@@ -14,7 +14,7 @@ class Favorites extends Component {
   }
 
   getList = () => {
-    fetch('/api/getList')
+    fetch('/Favorites')
     .then(res => res.json())
     .then(list => this.setState({ list }))
   }

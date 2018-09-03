@@ -12,19 +12,40 @@ class SignInForm extends Component {
     super();
     this.state = {
       Username: '',
-      Password: ''
+      Password: '',
+      NoNameErr: false,
+      PassErr: false
     };
   }
 
+  CheckLogin = ((user,password) => {
+    return true;
+  });
+
   handleInputChange = (event) => {
     const name = event.target.name;
-    this.setState({ [name]: event.target.value });
+    if (name === 'Username') {
+      this.setState({ [name]: event.target.value, NoNameErr: false })
+    }
+    else {
+      this.setState({ [name]: event.target.value })
+    }
   }
 
   handleSubmit = (event) => {
-    this.props.AppLogin();
+    event.preventDefault();
+    if (this.state.Username === '') {
+      this.setState({ NoNameErr: true })
+    }
+    else {
+      if (this.CheckLogin(this.state.Username, this.state.Password) === false) {
+        this.setState({ PassErr: true })
+      } else {
+        this.props.AppLogin();
+      }
+    }
   }
-
+  
   render() {
     return (
      	<div className="SignInForm">
@@ -53,7 +74,9 @@ class SignInForm extends Component {
             />
           </label>
           <br />
-          <input type="submit" value="Submit" />
+          {this.state.NoNameErr && <div className="ErrMsg">Please submit username</div>}
+          {this.state.PassErr && <div className="ErrMsg">The password doesn't match username</div>}
+          <input className="submit" type="submit" value="Submit" />
       		</form>
      	</div>
     );
