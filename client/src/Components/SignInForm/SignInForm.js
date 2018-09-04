@@ -74,8 +74,8 @@ class SignInForm extends Component {
             />
           </label>
           <br />
-          {this.state.NoNameErr && <div className="ErrMsg">Please submit username</div>}
-          {this.state.PassErr && <div className="ErrMsg">The password doesn't match username</div>}
+          {this.state.NoNameErr && <div className="ErrMsg">Please submit a username</div>}
+          {this.state.PassErr && <div className="ErrMsg">The password doesn't match the username</div>}
           <input className="submit" type="submit" value="Submit" />
       		</form>
      	</div>

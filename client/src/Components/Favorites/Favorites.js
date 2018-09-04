@@ -44,6 +44,7 @@ class Favorites extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
+    this.isUnmounted = true; // Kills not returned promises
   }
 
   render() {
