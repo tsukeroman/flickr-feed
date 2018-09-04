@@ -8,7 +8,9 @@ import 'toastr/toastr.css';
 class Image extends React.Component {
   static propTypes = {
     dto: PropTypes.object,
-    galleryWidth: PropTypes.number
+    screenWidth: PropTypes.number,
+    base: PropTypes.string,
+    onRemoveImage: PropTypes.func
   };
 
   constructor(props) {
@@ -21,10 +23,10 @@ class Image extends React.Component {
   }
 
   calcImageSize() {
-    const {galleryWidth} = this.props;
+    const {screenWidth} = this.props;
     const targetSize = 200;
-    const imagesPerRow = Math.round(galleryWidth / targetSize);
-    const size = (galleryWidth / imagesPerRow);
+    const imagesPerRow = Math.round(screenWidth / targetSize);
+    const size = (screenWidth / imagesPerRow);
     this.setState({
       size
     });
@@ -51,10 +53,46 @@ class Image extends React.Component {
   }
 
   onFavorite = () => {
-    console.log("Image saved to Favorites");
-    Toastr.options = {"positionClass": "toast-bottom-left"}
-    Toastr.success( 'Image Saved To Favorites');
-  }
+    const Image = this.props.dto;
+    fetch('/Favorites/Add', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ...Image })
+    })
+    .then(res => res.json())
+    .then((res) => {
+      if(res.length) {
+        console.log("Image saved to Favorites");
+        Toastr.options = {"positionClass": "toast-bottom-left"}
+        Toastr.success( 'Image Saved To Favorites');
+      }
+      else {
+        console.log("Image is already in Favorites");
+        Toastr.options = {"positionClass": "toast-bottom-left"}
+        Toastr.info('Image is already in Favorites');
+      }
+    });
+  };
+
+  offFavorite = () => {
+    const Image = this.props.dto;
+    fetch('/Favorites/Remove', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ...Image })
+    }).then(() => {
+      this.props.onRemoveImage();
+      console.log("Image removed from Favorites");
+      Toastr.options = {"positionClass": "toast-bottom-left"}
+      Toastr.success('Image removed from Favorites');
+    });
+  };
 
   render() {
     return (
@@ -69,7 +107,8 @@ class Image extends React.Component {
           <span> {this.state.isOpen && <Modal src={this.urlFromDto(this.props.dto)} onClose={this.onClose} />} </span>
           <div>
             <button className='image-icon' onClick={this.onExpand}> Expand </button>
-            <button className='image-icon' onClick={this.onFavorite}> Like </button>
+            {(this.props.base === 'Gallery') ? <button className='image-icon' onClick={this.onFavorite}> Like </button> : <div></div>}
+            {(this.props.base === 'Favorites') ? <button className='image-icon' onClick={this.offFavorite}> Unlike </button> : <div></div>}
           </div>
         </div>
     );

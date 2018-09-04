@@ -1,48 +1,68 @@
 import React, { Component } from 'react';
+import uuid from 'uuid';
+import Image from '../Image/Image';
 import './Favorites.css';
 
 class Favorites extends Component {
   constructor(props){
     super(props);
     this.state = {
-      list: []
+      list: [],
+      favoritesWidth: this.getFavoritesWidth()
     }
   }
 
-  componentDidMount() {
-    this.getList();
+  onRemoveImage = () => {
+    this.getFavorites();
   }
 
-  getList = () => {
+  getFavoritesWidth(){
+    try {
+      return document.body.clientWidth;
+    } catch (e) {
+      return 1000;
+    }
+  }
+
+  getFavorites = () => {
     fetch('/Favorites')
     .then(res => res.json())
     .then(list => this.setState({ list }))
+  }
+
+  handleResize = () => this.setState({
+      favoritesWidth: this.getFavoritesWidth()
+  });
+
+  componentDidMount() {
+  	window.addEventListener('resize', this.handleResize);
+    this.getFavorites();
+    this.setState({
+      favoritesWidth: document.body.clientWidth
+    });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
   }
 
   render() {
   	const { list } = this.state;
     return (
       	<div className="Favorites">
-	      	Favorites
-	      	<div className="FromServer">
-		      	<h1>List of Items</h1>
-		      	<div>
-			      	{list.length ? (
-			      		<div>
-			      			{list.map((item) => {
-			      				return(
-			      					<div>
-			      						{item}
-			      					</div>
-			      				);
-			      			})}
-			      		</div>
-			      	) : (
-			      		<div>
-			      			<h2>No List Items Found</h2>
-			      		</div>
-			      	)}
-		      	</div>
+	      	<h1>Favorites</h1>
+	      	<div className="FromServer">  	
+			    {list.map((item) => {
+              		return(
+                  		<Image 
+                        dto={item} 
+                        key={uuid.v4()} 
+                        screenWidth={this.state.favoritesWidth} 
+                        base='Favorites' 
+                        onRemoveImage={this.onRemoveImage}
+                      />
+              		);
+            	})}
 	      	</div>
       </div>
     );

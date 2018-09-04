@@ -29,6 +29,7 @@ class Gallery extends React.Component {
       return 1000;
     }
   }
+
   getImages(tag) {
     const { per_page, page } = this.state;
     const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=57b8bb3af162b9c04507be7b6dba0fb8&tags=
@@ -106,7 +107,12 @@ class Gallery extends React.Component {
     return (
       <div className="gallery-root">
         {this.state.images.map(dto => {
-          return <Image key={uuid.v4()} dto={dto} galleryWidth={this.state.galleryWidth} />;
+          return <Image 
+                  key={uuid.v4()} 
+                  dto={dto} 
+                  screenWidth={this.state.galleryWidth} 
+                  base='Gallery' 
+                />;
         })}
       </div>
     );
