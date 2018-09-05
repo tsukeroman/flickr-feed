@@ -3,11 +3,24 @@ const debug = require('debug')('app:FavoritesRouter');
 const { MongoClient } = require('mongodb');
 const FavoritesRouter = express.Router();
 
+
+/* 
+Instead of waiting for every response of the database, we maintain in the list array the images
+of Favorites, and every time we add/remove image, we do on list and pass a response to the client,
+and just then we talk to the database.
+It is a kind of optimistic updating, since we can't be sure that the call to the database will
+succes, but we earn a great improvement of the performance, since MongoDB is pretty slow.
+*/
 let list = [];
 
+// The default port of mongo is 27017, and we name the database 'flick-feed'
 const url = 'mongodb://localhost:27017';
 const dbName = 'flickr-feed';
 
+/* 
+We call here an IIFE, a function that excuted immediately when read by the compiler, in order
+to get the favorites from the database.
+*/
 (async function getFavorites() {
   let client;
   try {
@@ -25,12 +38,16 @@ const dbName = 'flickr-feed';
   client.close();
 }());
 
+/* 
+This route is responsible for the /Favorites route, passes the favorites from the database
+to the client
+*/
 FavoritesRouter.get('/', (req,res) => {
     res.json(list);
     debug('Sent list of favorites');
 });
 
-
+// This route is responsible for the /Favorites/Add route, addes a new favorite to the database
 FavoritesRouter.post('/Add', (req,res) => {
   let i, flag=0;
 	const Image = req.body; 
@@ -64,6 +81,7 @@ FavoritesRouter.post('/Add', (req,res) => {
   }
 });
 
+// This route is responsible for the /Favorites/Remove route, removes a favorite from the database
 FavoritesRouter.post('/Remove', (req,res) => {
   const Image = req.body;
   const id = Image.id;

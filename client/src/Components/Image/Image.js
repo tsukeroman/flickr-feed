@@ -15,14 +15,15 @@ class Image extends React.Component {
 
   constructor(props) {
     super(props);
-    this.calcImageSize = this.calcImageSize.bind(this);
     this.state = {
       size: 200,
       isOpen: false
     };
   }
 
-  calcImageSize() {
+  // this function calculates the image size when the app loads and after
+  // every screen size event
+  calcImageSize = () => {
     const {screenWidth} = this.props;
     const targetSize = 200;
     const imagesPerRow = Math.round(screenWidth / targetSize);
@@ -40,18 +41,24 @@ class Image extends React.Component {
     this.calcImageSize();
   }
 
+  // this function constructs the url of the image by it's object
   urlFromDto(dto) {
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
   }
 
+  // this function is responisble to showing an image in a larger view
   onExpand = () => {
     this.setState({ isOpen: true })
   }
 
+  // this function is responsible to close the larger view that has been triggered by
+  // the function above 
   onClose = () => {
     this.setState({ isOpen: false })
   }
 
+  // this function is responsible to call the server whenever the user liked an image
+  // in order to save the image in favorites
   onFavorite = () => {
     const Image = this.props.dto;
     fetch('/Favorites/Add', {
@@ -77,6 +84,8 @@ class Image extends React.Component {
     });
   };
 
+  // this function is responsible to call the server whenever the user un-liked an image
+  // in order to delete the image from favorites
   offFavorite = () => {
     const Image = this.props.dto;
     fetch('/Favorites/Remove', {
@@ -94,6 +103,10 @@ class Image extends React.Component {
     });
   };
 
+  // we render by conditional rendering a modal for viewing pictures on a larger view, 
+  // the state is maintained in the component state. also we use conditional rendering 
+  // to determine wether to show "like" button for image in Explore area, or to show
+  // "un-like" button for image in favorites
   render() {
     return (
         <div

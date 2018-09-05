@@ -14,6 +14,7 @@ class Search extends React.Component {
     };
   }
 
+  // this function updates the search field after any tab the user typed
   tagChange = ((e) => {
     this.setState({ value: e.target.value}, () => this.props.onSearchChange(this.state.value));
   });

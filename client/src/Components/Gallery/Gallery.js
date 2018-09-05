@@ -10,6 +10,8 @@ class Gallery extends React.Component {
     tag: PropTypes.string
   };
 
+  // the state maintains the list of images that are viewed on the page,
+  // and also maintains all the info we need for the infinite scrolling feature
   constructor(props) {
     super(props);
     this.state = {
@@ -22,6 +24,8 @@ class Gallery extends React.Component {
     };
   }
 
+  // this function is responsible for checking the screen width in order to 
+  // optimally fit the images size to the screen
   getGalleryWidth(){
     try {
       return document.body.clientWidth;
@@ -30,6 +34,7 @@ class Gallery extends React.Component {
     }
   }
 
+  //this function is reponsible for fetching images from Flickr servers
   getImages(tag) {
     const { per_page, page } = this.state;
     const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=57b8bb3af162b9c04507be7b6dba0fb8&tags=
@@ -60,10 +65,14 @@ class Gallery extends React.Component {
       });
   }
 
+  // this handler is called each time the screen size changes
   handleResize = () => this.setState({
       galleryWidth: this.getGalleryWidth()
   });
 
+  // this handler is called each time the user scrolls over the page
+  // since we implemented an infinite scrolling in the app, this handler 
+  // is very important
   handleScroll = () => {
     const { scrolling, totalPages, page} = this.state;
     if (scrolling) return;
@@ -77,6 +86,7 @@ class Gallery extends React.Component {
     }
   };
 
+  // this function load more images when the user scrolled over all the images
   loadMore = () => {
     this.setState({
       page: this.state.page + 1,

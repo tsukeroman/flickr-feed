@@ -8,6 +8,11 @@ class SignInForm extends Component {
     AppLogin: PropTypes.func
   };
 
+  /*
+  This component is responsible for the sign-in process. In the state we maintain the data from
+   the username and the password input fields, and also we keep in the state entries for error handling
+   so we can notify the state if an error accured and to show an error message immideately
+  */
   constructor() {
     super();
     this.state = {
@@ -18,10 +23,12 @@ class SignInForm extends Component {
     };
   }
 
+  // this function asks the server to check wether the password match the username
   CheckLogin = ((user,password) => {
     return true;
   });
 
+  // this function handles any change at the input fields
   handleInputChange = (event) => {
     const name = event.target.name;
     if (name === 'Username') {
@@ -32,6 +39,7 @@ class SignInForm extends Component {
     }
   }
 
+  // this function handles a submit, namely a sign-in attempt
   handleSubmit = (event) => {
     event.preventDefault();
     if (this.state.Username === '') {
