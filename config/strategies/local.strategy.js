@@ -26,9 +26,7 @@ module.exports = function localStrategy() {
 
         if(!user) {
         	done(null, false);
-        }
-
-        if (user.Password === password) {
+        } else if (user.Password === password) {
           done(null, user);
         } else {
           done(null, false);

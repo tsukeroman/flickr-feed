@@ -61,7 +61,7 @@ class SignUpForm extends Component {
               this.setState({ NameExistErr: true })
             } else {
               this.setState({ NameExistErr: false }, () => {
-                this.props.AppSignup();
+                this.props.AppSignup(res);
               })
             }
           })

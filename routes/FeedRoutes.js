@@ -1,14 +1,14 @@
 const express = require('express');
 const debug = require('debug')('app:FeedRouter');
+const passport = require('passport');
 
 const FeedRouter = express.Router();
 
 FeedRouter.get('/', (req,res) => {
-	res.send('GET handler for /Feed route.');
+	if(req.user) {
+		debug(`HELLO ${req.user.Username} nice to see you!`)
+	}
 });
 
-FeedRouter.get('/', (req,res) => {
-	res.send('POST handler for /Feed route.');
-});
 
 module.exports = FeedRouter;

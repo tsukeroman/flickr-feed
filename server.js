@@ -22,7 +22,7 @@ app.use(morgan('tiny'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({ secret: 'flickrfeed' }));
+app.use(session({ secret: 'flickrfeed', resave: true, saveUninitialized: true }));
 
 require('./config/passport.js')(app);
 
@@ -30,8 +30,8 @@ require('./config/passport.js')(app);
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Routers and routes to handle API endpoint requests
-const FavoritesRouter = require('./routes/FavoritesRoutes');
-const AuthenticationRouter = require('./routes/AuthenticationRoutes');
+const AuthenticationRouter = require('./routes/AuthenticationRoutes')();
+const FavoritesRouter = require('./routes/FavoritesRoutes')();
 const FeedRouter = require('./routes/FeedRoutes');
 
 app.use('/Favorites', FavoritesRouter);

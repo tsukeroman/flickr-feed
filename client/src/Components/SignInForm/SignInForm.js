@@ -44,11 +44,11 @@ class SignInForm extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     if (this.state.Username === '') {
-      this.setState({ NoNameErr: true })
+      this.setState({ NoNameErr: true, PassErr: false, NoPassErr: false })
     }
     else {
       if (this.state.Password === '') {
-        this.setState({ NoPassErr: true })
+        this.setState({ NoPassErr: true, PassErr: false, NoNameErr: false })
       } else {
         fetch('/Auth/Signin', {
           method: 'post',
@@ -61,7 +61,7 @@ class SignInForm extends Component {
           .then(res => res.json())
           .then(res => {
             if(res) {
-              this.props.AppLogin();
+              this.props.AppLogin(res);
             } else {
               this.setState({ Username: '', Password: '', PassErr: true })
             }

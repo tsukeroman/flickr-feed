@@ -6,59 +6,61 @@ const AuthenticationRouter = express.Router();
 
 const url = 'mongodb://localhost:27017';
 const dbName = 'flickr-feed';
-const colName = 'Users'
+const colName = 'Users';
 
 
-AuthenticationRouter.post('/Signup', (req,res) => {
-	 const { Username, Password } = req.body;
-	(async function addUser() {
-        let client;
-        try {
-          client = await MongoClient.connect(url, { useNewUrlParser: true });
-          debug('Connected correctly to server');
+function router() {
+	AuthenticationRouter.post('/Signup', (req,res) => {
+		 const { Username, Password } = req.body;
+		(async function addUser() {
+	        let client;
+	        try {
+	          client = await MongoClient.connect(url, { useNewUrlParser: true });
+	          debug('Connected correctly to server');
 
-          const db = client.db(dbName);
+	          const db = client.db(dbName);
 
-          const col = db.collection(colName);
-          const user = { Username, Password };
-          const results = await col.insertOne(user);
-          debug(results);
-          req.login(results.ops[0], () => {
-            res.redirect('/Auth/Profile');
-          });
-        } catch (err) {
-          debug(err);
-        }
-      }());
-});
-
-
-AuthenticationRouter.post('/Signin', (passport.authenticate('local', {
-      successRedirect: '/Auth/Profile',
-      failureRedirect: '/Auth/Fail'
-})));
+	          const col = db.collection(colName);
+	          const user = { Username, Password };
+	          const results = await col.insertOne(user);
+	          debug(results);
+	          req.login(results.ops[0], () => {
+	            res.redirect('/Auth/Profile');
+	          });
+	        } catch (err) {
+	          debug(err);
+	        }
+	      }());
+	});
 
 
+	AuthenticationRouter.post('/Signin', (passport.authenticate('local', {
+	      successRedirect: '/Auth/Profile',
+	      failureRedirect: '/Auth/Fail'
+	})));
 
-AuthenticationRouter.get('/Logout', (req,res) => {
-	req.logout(req.user);
-});
 
 
-AuthenticationRouter.get('/Profile', (req,res) => {
-		res.json(req.user);
-	}).all((req, res, next) => {
+	AuthenticationRouter.get('/Logout', (req,res) => {
+		req.logout();
+		res.redirect('/Auth/Fail');
+	});
+
+	AuthenticationRouter.get('/Profile', (req, res, next) => {
 		if(req.user) {
 			next();
+			debug(`the user now is ${req.user.Username}`);
+			res.json(req.user); 
 		} else {
 			res.redirect('/Auth/Fail')
 		}
+	})
+
+	AuthenticationRouter.get('/Fail', (req,res) => {
+		res.json(false);
 	});
 
-AuthenticationRouter.get('/Fail', (req,res) => {
-	debug('what a fail !!')
-	res.json(false);
-});
+	return AuthenticationRouter;
+}
 
-
-module.exports = AuthenticationRouter;
+module.exports = router;

@@ -6,6 +6,24 @@ import Explore from '../Explore/Explore';
 import Favorites from '../Favorites/Favorites';
 import Login from '../Login/Login';
 
+/* 
+These functions help us to pass props to components via react router.
+In order to use them, we use <PropsRoute> instead of <Route>
+*/
+const renderMergedProps = (component, ...rest) => {
+  const finalProps = Object.assign({}, ...rest);
+  return (
+    React.createElement(component, finalProps)
+  );
+}
+
+const PropsRoute = ({ component, ...rest }) => {
+  return (
+    <Route {...rest} render={routeProps => {
+      return renderMergedProps(component, routeProps, rest);
+    }}/>
+  );
+}
 
 
 /* 
@@ -17,9 +35,9 @@ class Main extends Component {
     return (
       <div className="Main">
           <Switch>
-            <Route exact path='/' component={Feed} />
+            <PropsRoute exact path='/' component={Feed} Username={this.props.Username} />
             <Route path='/Explore' component={Explore} />
-            <Route path='/Favorites' component={Favorites} />
+            <PropsRoute path='/Favorites' component={Favorites} Username={this.props.Username} />
             <Route path='/Login' component={Login} />
           </Switch>
       </div>
