@@ -1,0 +1,89 @@
+.SignUpForm {
+	text-align: center;
+	vertical-align: center;
+}
+
+.user {
+	margin-top: 15px;
+	margin-left: 5px;
+}
+
+.password {
+	margin-top: 5px;
+	margin-left: 5px;
+	margin-bottom: 10px;
+}
+
+.ErrMsg {
+	margin-top: 5px;
+	margin-bottom: 10px;
+	color: #f73838;
+}
+
+.SignUpForm {
+    
+}
+
+
+.submit {
+    border-radius: 5px;
+}
+
+.user {
+    border-radius: 1px;
+    padding: 1px 3px;
+}
+
+.password {
+    border-radius: 1px;
+    padding: 1px 3px;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted grey;
+    margin-left: 5px;
+    border-radius: 7px;
+    background: lightgrey;
+    padding: 0px 7px;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.info {
+	font-weight: bold;
+	font-style: oblique;
+	color: #06275b;
+}

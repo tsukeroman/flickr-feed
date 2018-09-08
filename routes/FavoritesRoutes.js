@@ -16,6 +16,7 @@ let list = [];
 // The default port of mongo is 27017, and we name the database 'flick-feed'
 const url = 'mongodb://localhost:27017';
 const dbName = 'flickr-feed';
+const userName = 'user01';
 
 /* 
 We call here an IIFE, a function that excuted immediately when read by the compiler, in order
@@ -27,7 +28,7 @@ to get the favorites from the database.
     client = await MongoClient.connect(url, { useNewUrlParser: true });
     debug('Connected correctly to server');
     const db = client.db(dbName);
-    const col = await db.collection('Favorites');
+    const col = await db.collection('Favorites'/*+'_'+userName*/);
     const Favorites = await col.find().toArray();
     list = Object.keys(Favorites).map(key => {
       return Favorites[key];
@@ -67,7 +68,7 @@ FavoritesRouter.post('/Add', (req,res) => {
           client = await MongoClient.connect(url, { useNewUrlParser: true });
           debug('Connected correctly to server');
           const db = client.db(dbName);
-          const col = db.collection('Favorites');
+          const col = db.collection('Favorites'+'_'+userName);
           const Favorites = await col.find().toArray();
           const results = await col.insertOne(Image);
           debug(`Image of id number ${Image.id} was added to Favorites.`);
@@ -94,7 +95,7 @@ FavoritesRouter.post('/Remove', (req,res) => {
           client = await MongoClient.connect(url, { useNewUrlParser: true });
           debug('Connected correctly to server');
           const db = client.db(dbName);
-          const col = db.collection('Favorites');
+          const col = db.collection('Favorites'+'_'+userName);
           const Favorites = await col.find().toArray();
           const results = await col.deleteOne({"id": Image.id});
           debug(`Image of id number ${Image.id} was removed from Favorites.`);

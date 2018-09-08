@@ -10,6 +10,9 @@ const debug = require('debug')('app');
 const morgan = require('morgan');
 const path = require('path');
 const bodyParser = require('body-parser');
+const passport = require('passport');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 
 const app = express();
@@ -18,6 +21,10 @@ const port = process.env.PORT || 5000;
 app.use(morgan('tiny'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(session({ secret: 'flickrfeed' }));
+
+require('./config/passport.js')(app);
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));

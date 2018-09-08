@@ -7,6 +7,7 @@ import Favorites from '../Favorites/Favorites';
 import Login from '../Login/Login';
 
 
+
 /* 
 The Main component routes between the different areas in the app, links to all of them 
 are in the topbar.

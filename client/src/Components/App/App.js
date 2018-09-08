@@ -15,6 +15,24 @@ class App extends Component {
   }
 
 /*
+  componentDidMount() {
+    this.CheckIfLogged();
+  }
+
+  CheckIfLogged = () => {
+    fetch('/Auth/Profile')
+      .then(res => res.json())
+      .then(res => {
+        if(res) {
+          this.setState({ isLogged: true })
+        } else {
+          this.setState({ isLogged: false })
+        }
+      })
+  }
+*/
+
+/*
 The following function modify wether the user is logged or not by changing 'isLogged' in state,
 which initially set to be false, i.e. not logged. Any log-in/log-out followed by a redirect to 
 the main page of the app.
@@ -24,7 +42,12 @@ the main page of the app.
   }
 
   AppLogout = () => {
+
   	this.setState({ isLogged: false }, () => {console.log('LOGGED OUT !'); return <Redirect to='/' />});
+  }
+
+  AppSignup = () => {
+    this.setState({ isLogged: true }, () => {console.log('USER CREATED AND LOGGED IN !'); return <Redirect to='/' />});
   }
 
 // We perform a conditional rendering, which depends on user's log status
@@ -36,7 +59,7 @@ the main page of the app.
         	<Main />
       	</div>) :
       	(<div className="App">
-        	<Login AppLogin={this.AppLogin} />
+        	<Login AppLogin={this.AppLogin} AppSignup={this.AppSignup} />
       	</div>);
     return res;
 	}

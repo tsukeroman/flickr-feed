@@ -5,11 +5,14 @@
 	padding-top: 70px;
 }
 
-.SignUp {
+.Sign {
 	margin-top: 10px;
 	text-align: center;
 }
 
-.SignUpLink {
+.Link {
 	text-decoration: none;
+	cursor: pointer;
+	color: #06275b;
+	font-weight: bold;
 }

@@ -19,6 +19,7 @@ class SignInForm extends Component {
       Username: '',
       Password: '',
       NoNameErr: false,
+      NoPassErr: false,
       PassErr: false
     };
   }
@@ -32,10 +33,10 @@ class SignInForm extends Component {
   handleInputChange = (event) => {
     const name = event.target.name;
     if (name === 'Username') {
-      this.setState({ [name]: event.target.value, NoNameErr: false })
+      this.setState({ [name]: event.target.value, NoNameErr: false, NoPassErr: false, PassErr: false })
     }
     else {
-      this.setState({ [name]: event.target.value })
+      this.setState({ [name]: event.target.value, NoNameErr: false, NoPassErr: false, PassErr: false })
     }
   }
 
@@ -46,32 +47,46 @@ class SignInForm extends Component {
       this.setState({ NoNameErr: true })
     }
     else {
-      if (this.CheckLogin(this.state.Username, this.state.Password) === false) {
-        this.setState({ PassErr: true })
+      if (this.state.Password === '') {
+        this.setState({ NoPassErr: true })
       } else {
-        this.props.AppLogin();
+        fetch('/Auth/Signin', {
+          method: 'post',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ Username: this.state.Username, Password: this.state.Password })
+        })
+          .then(res => res.json())
+          .then(res => {
+            if(res) {
+              this.props.AppLogin();
+            } else {
+              this.setState({ Username: '', Password: '', PassErr: true })
+            }
+          });
       }
     }
   }
-  
+
   render() {
-    return (
+    return ( 
      	<div className="SignInForm">
-      		Log In
+      		<h3>Log in to Flickr-Feed</h3>
       		<form onSubmit={this.handleSubmit}>
           <label>
-            Username:
       		  <input 
               name='Username'
               className="user" 
               placeholder="Username" 
               value={this.state.Username} 
               onChange={this.handleInputChange} 
+              autoComplete="off"
             />
       		</label>
           <br />
           <label>
-            Password:
       		  <input
               name='Password'
               className="password" 
@@ -83,8 +98,9 @@ class SignInForm extends Component {
           </label>
           <br />
           {this.state.NoNameErr && <div className="ErrMsg">Please submit a username</div>}
+          {this.state.NoPassErr && <div className="ErrMsg">You have to submit a password</div>}
           {this.state.PassErr && <div className="ErrMsg">The password doesn't match the username</div>}
-          <input className="submit" type="submit" value="Submit" />
+          <input className="submit" type="submit" value="Log in" />
       		</form>
      	</div>
     );
