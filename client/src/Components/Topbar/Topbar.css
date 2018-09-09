@@ -94,3 +94,7 @@
 	color: #d6d8db;
 	padding-bottom: 5px;
 }
+
+.responsiveRoute:hover {
+	color: white;
+}

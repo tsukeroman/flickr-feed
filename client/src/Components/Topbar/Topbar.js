@@ -55,7 +55,7 @@ class Topbar extends Component {
 
   handleResize = () => {
     const width = this.getBarWidth();
-    if (width < 600) {
+    if (width < 700) {
       this.setState({ width: width, littleWidth: true })
     } else {
       this.setState({ width: width, littleWidth: false, responsiveBar: false })

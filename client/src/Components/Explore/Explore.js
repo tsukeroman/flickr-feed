@@ -37,7 +37,15 @@ class Explore extends Component {
 	render() {
 		return (
 			<div className="Explore">
-				<Search onSearchChange={this.onSearchChange} />
+				<Search onSearchChange={this.onSearchChange} onSuggestion={this.state.tag} />
+				<div className='Suggestions'> 
+					<button className='sug button' onClick={()=>this.setState({tag: 'culture'})}>Culture</button>
+					<button className='sug button' onClick={()=>this.setState({tag: 'science'})}>Science</button>
+					<button className='sug button hide4' onClick={()=>this.setState({tag: 'music'})}>Music</button>
+					<button className='sug button hide3' onClick={()=>this.setState({tag: 'business'})}>Business</button>
+					<button className='sug button hide2' onClick={()=>this.setState({tag: 'sports'})}>Sports</button>
+					<button className='sug button hide1' onClick={()=>this.setState({tag: 'tourism'})}>Tourism</button>
+				</div>
 				<Gallery tag={this.state.tag} />
 			</div>
 		);

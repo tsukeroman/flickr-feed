@@ -4,7 +4,8 @@ import './Search.css';
 
 class Search extends React.Component {
   static propTypes = {
-    onSearchChange: PropTypes.func
+    onSearchChange: PropTypes.func,
+    onSuggestion:  PropTypes.string
   };
 
   constructor() {
@@ -12,6 +13,10 @@ class Search extends React.Component {
     this.state = {
       value: ''
     };
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({ value: props.onSuggestion })
   }
 
   // this function updates the search field after any tab the user typed
