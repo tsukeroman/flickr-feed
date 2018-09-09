@@ -18,21 +18,37 @@ class SignUpForm extends Component {
     this.state = {
       Username: '',
       Password: '',
-      NameUsedErr: false,
+      NameExistErr: false,
       NoNameErr: false,
-      NoPassErr: false
+      NoPassErr: false,
+      NameFormatErr: false,
+      PassFormatErr: false
     };
   }
 
 
+  validateInput = (str) => {
+    const Restricted = `., !?;:"'~@#$%^&*+=/|<>(){}[]`;
+    let i;
+    for(i=0;i<Restricted.length;i++) {
+      if(str.indexOf(Restricted[i]) !== -1) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   // this function handles any change at the input fields
   handleInputChange = (event) => {
     const name = event.target.name;
+    const value = event.target.value;
     if (name === 'Username') {
-      this.setState({ [name]: event.target.value, NoNameErr: false, NameUsedErr: false, NoPassErr: false })
+        this.setState({ [name]: value, NoNameErr: false, NameExistErr: false, 
+          NoPassErr: false, NameFormatErr: false,  PassFormatErr: false })
     }
     else {
-      this.setState({ [name]: event.target.value, NoNameErr: false, NameUsedErr: false, NoPassErr: false })
+        this.setState({ [name]: value, NoNameErr: false, 
+          NoPassErr: false, NameFormatErr: false, PassFormatErr: false })
     }
   }
 
@@ -41,10 +57,14 @@ class SignUpForm extends Component {
     event.preventDefault();
     if (this.state.Username === '') {
       this.setState({ NoNameErr: true })
+    } else if (this.validateInput(this.state.Username) === false) {
+        this.setState({ NameFormatErr: true });
     }
     else {
       if (this.state.Password === '') {
         this.setState({ NoPassErr: true })
+      } else if (this.validateInput(this.state.Password) === false) {
+        this.setState({ PassFormatErr: true });
       } else {
         fetch('/Auth/Signup', {
           method: 'post',
@@ -56,8 +76,8 @@ class SignUpForm extends Component {
         })
           .then(res => res.json())
           .then(res => {
-            console.log(res);
-            if(!res) {
+            //console.log(res);
+            if(res === false) {
               this.setState({ NameExistErr: true })
             } else {
               this.setState({ NameExistErr: false }, () => {
@@ -73,10 +93,10 @@ class SignUpForm extends Component {
   render() {
     return (
      	<div className="SignUpForm">
-      		<h3>Sign Up</h3>
+      		<h1>Sign up</h1>
       		<form onSubmit={this.handleSubmit}>
           <label>
-            Username:
+            
       		  <input 
               name='Username'
               className="user" 
@@ -87,12 +107,12 @@ class SignUpForm extends Component {
             />
             <div className="tooltip">
               <div className="info"> i </div> 
-              <span className="tooltiptext">dont use ' '</span>
+              <span className="tooltiptext">Username may contain letters, numbers, dash and underscore</span>
             </div>
       		</label>
           <br />
           <label>
-            Password:
+            
       		  <input
               name='Password'
               className="password" 
@@ -103,14 +123,16 @@ class SignUpForm extends Component {
             />
             <div className="tooltip">
               <div className="info"> i </div> 
-              <span className="tooltiptext">dont use ' '</span>
+              <span className="tooltiptext">Password may contain letters, numbers, dash and underscore</span>
             </div>
           </label>
           <br />
           {this.state.NoNameErr && <div className="ErrMsg">Please choose an username</div>}
           {this.state.NoPassErr && <div className="ErrMsg">You have to submit a password</div>}
-          {this.state.NameExistErr && <div className="ErrMsg">This username is already exist</div>}
-          <input className="submit" type="submit" value="Submit" />
+          {this.state.NameExistErr && <div className="ErrMsg">This username is already exist, please choose another one</div>}
+          {this.state.NameFormatErr && <div className="ErrMsg">Username must have no spaces, and may contain only letters, numbers, dash and underscore</div>}
+          {this.state.PassFormatErr && <div className="ErrMsg">Password must have no spaces, and may contain only letters, numbers, dash and underscore</div>}
+          <input className="submit" type="submit" value="Sign up" />
       		</form>
      	</div>
     );

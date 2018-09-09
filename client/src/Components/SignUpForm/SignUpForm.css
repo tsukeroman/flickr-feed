@@ -1,43 +1,41 @@
 .SignUpForm {
 	text-align: center;
 	vertical-align: center;
+    background: #d6d8db;
+    padding: 15px;  
+    border-radius: 50px;
 }
 
 .user {
-	margin-top: 15px;
-	margin-left: 5px;
+    margin-top: 15px;
+    margin-left: 5px;
+    padding: 10px 12px;
+    border-radius: 5px;
+    font-size: 15px;
 }
 
 .password {
-	margin-top: 5px;
-	margin-left: 5px;
-	margin-bottom: 10px;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    padding: 10px 12px;
+    font-size: 15px;
 }
 
 .ErrMsg {
 	margin-top: 5px;
 	margin-bottom: 10px;
-	color: #f73838;
-}
-
-.SignUpForm {
-    
+	color: #f76313;
 }
 
 
 .submit {
+    margin-top: 5px;
     border-radius: 5px;
+    padding: 5px;
 }
 
-.user {
-    border-radius: 1px;
-    padding: 1px 3px;
-}
-
-.password {
-    border-radius: 1px;
-    padding: 1px 3px;
-}
 
 .tooltip {
     position: relative;
@@ -45,7 +43,7 @@
     border-bottom: 1px dotted grey;
     margin-left: 5px;
     border-radius: 7px;
-    background: lightgrey;
+    background: #caccce;
     padding: 0px 7px;
 }
 
@@ -56,7 +54,7 @@
     color: #fff;
     text-align: center;
     border-radius: 6px;
-    padding: 5px 0;
+    padding: 5px 3px;
     position: absolute;
     z-index: 1;
     bottom: 125%;

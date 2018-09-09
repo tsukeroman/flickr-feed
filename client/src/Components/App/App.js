@@ -20,7 +20,6 @@ class App extends Component {
   }
 
   CheckIfLogged = () => {
-    console.log('got here');
     fetch('/Auth/Profile')
       .then(res => res.json())
       .then(res => {
@@ -41,26 +40,25 @@ the main page of the app.
 */
   AppLogin = (user) => {
   	this.setState({ isLogged: true, Username: user.Username }, () => {
-      console.log(`LOGGED IN AS ${this.state.Username}!`); return <Redirect to='/' />
+      /*console.log(`LOGGED IN AS ${this.state.Username}!`);*/ return <Redirect to='/' />
     });
   }
 
   AppLogout = () => {
     fetch('/Auth/Logout');
-  	this.setState({ isLogged: false }, () => {
-      console.log('LOGGED OUT !'); return <Redirect to='/' />
+  	this.setState({ isLogged: false, Username:'' }, () => {
+      /*console.log('LOGGED OUT !');*/ return <Redirect to='/' />
     });
   }
 
   AppSignup = (user) => {
     this.setState({ isLogged: true, Username: user.Username }, () => {
-      console.log('USER CREATED AND LOGGED IN !'); return <Redirect to='/' />
+      /*console.log('USER CREATED AND LOGGED IN !');*/ return <Redirect to='/' />
     });
   }
 
 // We perform a conditional rendering, which depends on user's log status
 	render() {
-
   	let res = this.state.isLogged ?
       	(<div className="App">
         	<Topbar AppLogout={this.AppLogout} />

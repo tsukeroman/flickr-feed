@@ -21,6 +21,14 @@ class Image extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.calcImageSize();
+  }
+
+  componentWillReceiveProps(props) {
+    this.calcImageSize();
+  }
+
   // this function calculates the image size when the app loads and after
   // every screen size event
   calcImageSize = () => {
@@ -31,14 +39,6 @@ class Image extends React.Component {
     this.setState({
       size
     });
-  }
-
-  componentDidMount() {
-    this.calcImageSize();
-  }
-
-  componentWillReceiveProps(props) {
-    this.calcImageSize();
   }
 
   // this function constructs the url of the image by it's object
@@ -72,12 +72,12 @@ class Image extends React.Component {
     .then(res => res.json())
     .then((res) => {
       if(res.length) {
-        console.log("Image saved to Favorites");
+        /*console.log("Image saved to Favorites");*/
         Toastr.options = {"positionClass": "toast-bottom-left"}
         Toastr.success( 'Image Saved To Favorites');
       }
       else {
-        console.log("Image is already in Favorites");
+        /*console.log("Image is already in Favorites");*/
         Toastr.options = {"positionClass": "toast-bottom-left"}
         Toastr.info('Image is already in Favorites');
       }
@@ -97,7 +97,7 @@ class Image extends React.Component {
       body: JSON.stringify({ ...Image })
     }).then(() => {
       this.props.onRemoveImage();
-      console.log("Image removed from Favorites");
+      /*console.log("Image removed from Favorites");*/
       Toastr.options = {"positionClass": "toast-bottom-left"}
       Toastr.success('Image removed from Favorites');
     });

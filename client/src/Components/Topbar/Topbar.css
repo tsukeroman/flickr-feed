@@ -52,3 +52,45 @@
     left: 30px;
     padding: 3px;
 }
+
+/* Hide the link that should open and close the topnav on small screens */
+.responsive {
+    cursor: pointer;
+	position: absolute;
+	padding-top: 0px;
+	right: 33px;
+	text-decoration: none;
+	font-weight: bold;
+	font-family: "Times New Roman", Times, serif;
+	font-size: 16px;
+	color: #d6d8db;
+}
+
+.responsive:hover {
+	color: #e0e3e5;
+}
+
+.responsiveMenu {
+	padding-top: 10px;
+	padding-bottom: 5px;
+	top: 37px;
+	right: 0;
+	color: #d6d8db;
+	position: absolute;
+	width: 130px;
+	background-color: #313233;
+	border-bottom-left-radius: 15px;
+	
+}
+
+.responsiveRoute {
+	display: block;
+	position: relative;
+	text-align: center;
+	text-decoration: none;
+	font-weight: bold;
+	font-family: "Times New Roman", Times, serif;
+	font-size: 16px;
+	color: #d6d8db;
+	padding-bottom: 5px;
+}

@@ -24,9 +24,28 @@ class Gallery extends React.Component {
     };
   }
 
+  componentDidMount() {
+    window.addEventListener('resize', this.handleResize);
+    window.addEventListener('scroll', this.handleScroll);
+    this.getImages(this.props.tag);
+    this.setState({
+      galleryWidth: document.body.clientWidth
+    });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener('scroll', this.handleScroll);
+    this.isUnmounted = true; // Kills not returned promises
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({ images: [] }, () => this.getImages(props.tag))
+  }
+
   // this function is responsible for checking the screen width in order to 
   // optimally fit the images size to the screen
-  getGalleryWidth(){
+  getGalleryWidth = () => {
     try {
       return document.body.clientWidth;
     } catch (e) {
@@ -35,34 +54,38 @@ class Gallery extends React.Component {
   }
 
   //this function is reponsible for fetching images from Flickr servers
-  getImages(tag) {
+  getImages = (tag) => {
     const { per_page, page } = this.state;
     const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=57b8bb3af162b9c04507be7b6dba0fb8&tags=
     ${tag}&tag_mode=any&per_page=${per_page}&page=${page}&format=json&safe_search=1&nojsoncallback=1`;
     const baseUrl = 'https://api.flickr.com/';
-    axios({
-      url: getImagesUrl,
-      baseURL: baseUrl,
-      method: 'GET'
-    })
-      .then(res => res.data)
-      .then(res => {
-        if (
-          res &&
-          res.photos &&
-          res.photos.photo &&
-          res.photos.photo.length > 0
-        ) {
-          if (this.isUnmounted) {
-            return;
+    if(tag === '') {
+      this.setState({ images: [] })
+    } else {
+      axios({
+        url: getImagesUrl,
+        baseURL: baseUrl,
+        method: 'GET'
+      })
+        .then(res => res.data)
+        .then(res => {
+          if (
+            res &&
+            res.photos &&
+            res.photos.photo &&
+            res.photos.photo.length > 0
+          ) {
+            if (this.isUnmounted) {
+              return;
+            }
+            this.setState({
+              images: [...this.state.images, ...res.photos.photo],
+              scrolling: false,
+              totalPages: res.photos.total
+            });
           }
-          this.setState({
-            images: [...this.state.images, ...res.photos.photo],
-            scrolling: false,
-            totalPages: res.photos.total
-          });
-        }
-      });
+        });
+    }
   }
 
   // this handler is called each time the screen size changes
@@ -93,25 +116,6 @@ class Gallery extends React.Component {
       scrolling: true
      }, () => this.getImages(this.props.tag))
   };
-
-  componentDidMount() {
-    window.addEventListener('resize', this.handleResize);
-    window.addEventListener('scroll', this.handleScroll);
-    this.getImages(this.props.tag);
-    this.setState({
-      galleryWidth: document.body.clientWidth
-    });
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
-    window.removeEventListener('scroll', this.handleScroll);
-    this.isUnmounted = true; // Kills not returned promises
-  }
-
-  componentWillReceiveProps(props) {
-    this.setState({ images: [] }, () => this.getImages(props.tag))
-  }
 
   render() {
     return (

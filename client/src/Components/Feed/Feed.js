@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './Feed.css';
 
 class Feed extends Component {
@@ -9,6 +10,10 @@ class Feed extends Component {
  
     };
   }
+
+  static propTypes = {
+    Username: PropTypes.string
+  };
 
   render() {
     return (

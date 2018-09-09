@@ -22,11 +22,16 @@ function router() {
 
 	          const col = db.collection(colName);
 	          const user = { Username, Password };
-	          const results = await col.insertOne(user);
-	          debug(results);
-	          req.login(results.ops[0], () => {
-	            res.redirect('/Auth/Profile');
-	          });
+	          const check = await col.findOne({ Username: user.Username });
+	          if(check) {
+	          	res.redirect('/Auth/Fail');
+	          } else {
+		          const results = await col.insertOne(user);
+		          debug(results);
+		          req.login(results.ops[0], () => {
+		            res.redirect('/Auth/Profile');
+		          });
+		      }
 	        } catch (err) {
 	          debug(err);
 	        }

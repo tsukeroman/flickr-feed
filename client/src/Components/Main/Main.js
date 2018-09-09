@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import './Main.css';
 import Feed from '../Feed/Feed';
 import Explore from '../Explore/Explore';
@@ -31,6 +32,10 @@ The Main component routes between the different areas in the app, links to all o
 are in the topbar.
 */ 
 class Main extends Component {
+  static propTypes = {
+    Username: PropTypes.string
+  };
+
   render() {
     return (
       <div className="Main">

@@ -1,40 +1,38 @@
 .SignInForm {
 	text-align: center;
 	vertical-align: center;
+	background: #d6d8db;
+	padding: 15px;	
+	border-radius: 50px;
 }
 
 .user {
 	margin-top: 15px;
 	margin-left: 5px;
+	padding: 10px 12px;
+	border-radius: 5px;
+	font-size: 15px;
 }
 
 .password {
 	margin-top: 5px;
 	margin-left: 5px;
 	margin-bottom: 5px;
+	border-radius: 5px;
+    padding: 10px 12px;
+    font-size: 15px;
 }
 
 .ErrMsg {
 	margin-top: 5px;
 	margin-bottom: 10px;
-	color: #f73838;
+	color: #f76313;
 }
 
-.SignInForm {
-	
-}
 
 .submit {
 	margin-top: 5px;
     border-radius: 5px;
+    padding: 5px;
 }
 
-.user {
-    border-radius: 1px;
-    padding: 1px 3px;
-}
-
-.password {
-    border-radius: 1px;
-    padding: 1px 3px;
-}

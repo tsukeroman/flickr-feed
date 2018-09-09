@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import uuid from 'uuid';
 import Image from '../Image/Image';
 import './Favorites.css';
@@ -16,6 +17,23 @@ class Favorites extends Component {
       list: [],
       favoritesWidth: this.getFavoritesWidth()
     }
+  }
+
+  static propTypes = {
+    Username: PropTypes.string
+  };
+
+  componentDidMount() {
+    window.addEventListener('resize', this.handleResize);
+    this.getFavorites();
+    this.setState({
+      favoritesWidth: document.body.clientWidth
+    });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+    this.isUnmounted = true; // Kills not returned promises
   }
 
   getFavoritesWidth(){
@@ -39,19 +57,6 @@ class Favorites extends Component {
   handleResize = () => this.setState({
       favoritesWidth: this.getFavoritesWidth()
   });
-
-  componentDidMount() {
-    window.addEventListener('resize', this.handleResize);
-    this.getFavorites();
-    this.setState({
-      favoritesWidth: document.body.clientWidth
-    });
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
-    this.isUnmounted = true; // Kills not returned promises
-  }
 
   render() {
     const { list } = this.state;

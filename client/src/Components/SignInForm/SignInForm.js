@@ -24,10 +24,16 @@ class SignInForm extends Component {
     };
   }
 
-  // this function asks the server to check wether the password match the username
-  CheckLogin = ((user,password) => {
+  validateInput = (str) => {
+    const Restricted = `., !?;:"'~@#$%^&*+=/|<>(){}[]`;
+    let i;
+    for(i=0;i<Restricted.length;i++) {
+      if(str.indexOf(Restricted[i]) !== -1) {
+        return false;
+      }
+    }
     return true;
-  });
+  }
 
   // this function handles any change at the input fields
   handleInputChange = (event) => {
@@ -49,6 +55,8 @@ class SignInForm extends Component {
     else {
       if (this.state.Password === '') {
         this.setState({ NoPassErr: true, PassErr: false, NoNameErr: false })
+      } else if (this.validateInput(this.state.Username) === false) {
+        this.setState({ Username: '', Password: '', PassErr: true })
       } else {
         fetch('/Auth/Signin', {
           method: 'post',
@@ -73,7 +81,7 @@ class SignInForm extends Component {
   render() {
     return ( 
      	<div className="SignInForm">
-      		<h3>Log in to Flickr-Feed</h3>
+      		<h1>Log in to Flickr-Feed</h1>
       		<form onSubmit={this.handleSubmit}>
           <label>
       		  <input 
@@ -99,7 +107,7 @@ class SignInForm extends Component {
           <br />
           {this.state.NoNameErr && <div className="ErrMsg">Please submit a username</div>}
           {this.state.NoPassErr && <div className="ErrMsg">You have to submit a password</div>}
-          {this.state.PassErr && <div className="ErrMsg">The password doesn't match the username</div>}
+          {this.state.PassErr && <div className="ErrMsg">The password doesn't match the username, try again</div>}
           <input className="submit" type="submit" value="Log in" />
       		</form>
      	</div>
