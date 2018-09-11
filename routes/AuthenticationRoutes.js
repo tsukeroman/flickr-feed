@@ -11,7 +11,7 @@ const colName = 'Users';
 
 function router() {
 	AuthenticationRouter.post('/Signup', (req,res) => {
-		 const { Username, Password } = req.body;
+		const { Username, Password } = req.body;
 		(async function addUser() {
 	        let client;
 	        try {
@@ -21,7 +21,8 @@ function router() {
 	          const db = client.db(dbName);
 
 	          const col = db.collection(colName);
-	          const user = { Username, Password };
+	          const user = { Username, Password, CompletedReg: false, Interests: [] };
+	          debug(`now registered ${user.Username} and his regist is ${user.CompletedReg}.`)
 	          const check = await col.findOne({ Username: user.Username });
 	          if(check) {
 	          	res.redirect('/Auth/Fail');
@@ -63,6 +64,26 @@ function router() {
 
 	AuthenticationRouter.get('/Fail', (req,res) => {
 		res.json(false);
+	});
+
+	AuthenticationRouter.post('/Complete', (req,res) => {
+		const { Username, Interests } = req.body;
+		(async function complete() {
+	        let client;
+	        try {
+	          client = await MongoClient.connect(url, { useNewUrlParser: true });
+	          debug('Connected correctly to server');
+
+	          const db = client.db(dbName);
+
+	          const col = db.collection(colName);
+
+	          const results = await col.updateOne({ Username }, { $set: {Interests, CompletedReg: true}});
+	          res.json(results);
+	        } catch (err) {
+	          debug(err);
+	        }
+	      }());
 	});
 
 	return AuthenticationRouter;

@@ -62,7 +62,7 @@ class Favorites extends Component {
     const { list } = this.state;
     return (
         <div className="Favorites">
-          <h1>Favorites</h1>
+          <h2>Take a look at the images you have liked</h2>
           <div className="FromServer">    
           {list.map((item) => {
                   return(

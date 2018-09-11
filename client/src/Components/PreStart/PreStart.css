@@ -1,0 +1,29 @@
+.PreStart {
+	text-align: center;
+}
+
+.Hello {
+	text-align: center; 
+	width: 60%;
+	margin-right: 20%;
+	margin-left: 20%;
+	margin-top: 20px;
+	margin-bottom: 40px;
+	background-color: #d6d8db;
+	border-radius: 30px;
+	padding-bottom: 15px;
+	padding-top: 10px;
+}
+
+.Hello span {
+	font-size: 20px;
+}
+
+.start {
+	background-color: #d6d8db;
+	border-radius: 10px;
+	font-size: 20px;
+	padding: 5px 15px;
+	border-color: white;
+	outline: 0;
+}

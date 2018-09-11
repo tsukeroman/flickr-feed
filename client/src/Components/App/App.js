@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import Topbar from '../Topbar/Topbar';
 import Login from '../Login/Login';
 import Main from '../Main/Main';
+import PreStart from '../PreStart/PreStart';
 import './App.css';
 
 class App extends Component {
@@ -11,6 +12,7 @@ class App extends Component {
     super();
     this.state = {
       isLogged:  false,
+      CompletedReg: false,
       Username: ''
     };
   }
@@ -24,7 +26,11 @@ class App extends Component {
       .then(res => res.json())
       .then(res => {
         if(res) {
-          this.setState({ isLogged: true })
+          if (res.CompletedReg) {
+            this.setState({ isLogged: true, CompletedReg: true })
+          } else {
+            this.setState({ isLogged: true, CompletedReg: false })
+          }
         } else {
           this.setState({ isLogged: false })
         }
@@ -39,35 +45,63 @@ which initially set to be false, i.e. not logged. Any log-in/log-out followed by
 the main page of the app.
 */
   AppLogin = (user) => {
-  	this.setState({ isLogged: true, Username: user.Username }, () => {
-      /*console.log(`LOGGED IN AS ${this.state.Username}!`);*/ return <Redirect to='/' />
+  	this.setState({ isLogged: true, Username: user.Username, CompletedReg: user.CompletedReg }, () => {
+      /*console.log(`LOGGED IN AS ${this.state.Username}!`);*/ 
+      return <Redirect to='/' />
     });
   }
 
   AppLogout = () => {
     fetch('/Auth/Logout');
-  	this.setState({ isLogged: false, Username:'' }, () => {
-      /*console.log('LOGGED OUT !');*/ return <Redirect to='/' />
+  	this.setState({ isLogged: false, Username:'', CompletedReg: false }, () => {
+      /*console.log('LOGGED OUT !');*/ 
+      return <Redirect to='/' />
     });
   }
 
   AppSignup = (user) => {
-    this.setState({ isLogged: true, Username: user.Username }, () => {
-      /*console.log('USER CREATED AND LOGGED IN !');*/ return <Redirect to='/' />
+    this.setState({ isLogged: true, Username: user.Username, CompletedReg: false }, () => {
+      /*console.log('USER CREATED AND LOGGED IN !');*/ 
+      return <Redirect to='/' />
     });
+  }
+
+  CompleteRegistration = (choices) => {
+    fetch('/Auth/Complete', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ Username: this.state.Username, CompletedReg: true, Interests: choices })
+    })
+      .then(this.setState({ CompletedReg: true }))
   }
 
 // We perform a conditional rendering, which depends on user's log status
 	render() {
-  	let res = this.state.isLogged ?
-      	(<div className="App">
-        	<Topbar AppLogout={this.AppLogout} />
-        	<Main Username={this.state.Username} />
-      	</div>) :
-      	(<div className="App">
-        	<Login AppLogin={this.AppLogin} AppSignup={this.AppSignup} />
-      	</div>);
-    return res;
+    if(this.state.isLogged) {
+      if(this.state.CompletedReg) {
+        return (
+          <div className="App">
+            <Topbar AppLogout={this.AppLogout} />
+            <Main Username={this.state.Username} />
+          </div>
+        );
+      }
+      else {
+        return (
+          <PreStart CompleteRegistration={this.CompleteRegistration} Username={this.state.Username} />
+        );
+      }
+    }
+    else {
+      return (
+        <div className="App">
+          <Login AppLogin={this.AppLogin} AppSignup={this.AppSignup} />
+        </div>
+      );
+    }
 	}
 }
 
