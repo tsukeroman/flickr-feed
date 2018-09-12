@@ -55,10 +55,23 @@ class Gallery extends React.Component {
 
   //this function is reponsible for fetching images from Flickr servers
   getImages = (tag) => {
+    /*let i,j,flag = 0;
+    const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';*/
     const { per_page, page } = this.state;
     const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=57b8bb3af162b9c04507be7b6dba0fb8&tags=
     ${tag}&tag_mode=any&per_page=${per_page}&page=${page}&format=json&safe_search=1&nojsoncallback=1`;
     const baseUrl = 'https://api.flickr.com/';
+    /*for(i=0; i<tag.length; i++) {
+      for(j=0; j<letters.length;j++) {
+        if( tag[i] === letters[j] ) {
+          flag+=1;
+          break;
+        }
+      } 
+      if(flag > 0) {
+        break;
+      }
+    }*/
     if(tag === '') {
       this.setState({ images: [] })
     } else {

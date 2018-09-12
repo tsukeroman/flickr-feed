@@ -7,16 +7,23 @@ to add more complexed features to each of them and keep the code organaized.
 */
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import './Explore.css';
 import Search from '../Search/Search';
 import Gallery from '../Gallery/Gallery';
+import Toastr from 'toastr';
+import 'toastr/toastr.css'; 
 
 library.add(faCaretDown);
 
 class Explore extends Component {
+
+	static propTypes = {
+	    Username: PropTypes.string
+	}
 
 	constructor() {
 		super();
@@ -38,6 +45,30 @@ class Explore extends Component {
       this.setState({ tag: value })
       }.bind(this), 500);
   	};
+
+  	addInterest = () => {
+  		let tag = this.state.tag;
+  		tag = tag.charAt(0).toUpperCase() + tag.slice(1);
+
+      	fetch('/Feed/Interests/Add', {
+	        method: 'post',
+	        headers: {
+	          'Accept': 'application/json',
+	          'Content-Type': 'application/json'
+	        },
+	        body: JSON.stringify({ Username: this.props.Username, newInterest: tag })
+	    })	
+	    	.then(res => res.json())
+	    	.then(res => {
+	    		if(res) {
+	    			Toastr.options = {"positionClass": "toast-bottom-left"};
+        			Toastr.success(`${tag} was added to Interests`);
+        		} else {
+        			Toastr.options = {"positionClass": "toast-bottom-left"};
+        			Toastr.info(`${tag} is already in Interests`);
+        		}
+	    	})
+	}
 
 	render() {
 		return (
@@ -64,6 +95,13 @@ class Explore extends Component {
 						<button className='button MenuButton' onClick={()=>this.setState({tag: 'tourism'})}>Tourism</button>
 					</div>
 				</div>
+				{this.state.tag ? 
+			        (<div><button className='sug button2' onClick={this.addInterest}>
+			        	Add {this.state.tag.charAt(0).toUpperCase() + this.state.tag.slice(1)} to your interests
+			        </button></div>)
+			         : 
+			        (<div></div>)
+			    }
 				<Gallery tag={this.state.tag} />
 			</div>
 		);

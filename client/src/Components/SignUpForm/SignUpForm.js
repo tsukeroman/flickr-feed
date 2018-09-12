@@ -28,7 +28,7 @@ class SignUpForm extends Component {
 
 
   validateInput = (str) => {
-    const Restricted = `., !?;:"'~@#$%^&*+=/|<>(){}[]`;
+    const Restricted = `., !?;:"'~@#$%^&*+=/|<>(){}[]\\`;
     let i;
     for(i=0;i<Restricted.length;i++) {
       if(str.indexOf(Restricted[i]) !== -1) {

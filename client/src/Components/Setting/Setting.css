@@ -1,0 +1,18 @@
+.interest {
+	padding: 5px 10px;
+	border-radius: 10px;
+	outline: 0;
+	font-weight: bold;
+}
+
+.delete {
+	padding: 3px;
+	margin-left: 10px;
+	outline: 0;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.delete:hover {
+	background-color: #727272;
+}

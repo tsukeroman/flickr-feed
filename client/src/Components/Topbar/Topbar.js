@@ -83,6 +83,7 @@ class Topbar extends Component {
             		<Link to="/" className="route"> Home </Link>
             		<Link to="/Explore" className="route"> Explore </Link>
                 <Link to="/Favorites" className="route"> Favorites </Link>
+                <Link to="/Settings" className="settings"> Settings </Link>
             		<Link to="/" className="logout" onClick={this.AppLogout}> Log Out </Link>
             	</div>
   		</div>
@@ -106,6 +107,9 @@ class Topbar extends Component {
                       </div>
                       <div>
                         <Link to="/Favorites" className='responsiveRoute' onClick={this.toggleResponsive}> Favorites </Link>
+                      </div>
+                      <div>
+                        <Link to="/Settings" className='responsiveRoute'> Settings </Link>
                       </div>
                       <div>
                         <Link to="/" onClick={this.AppLogout} className='responsiveRoute'> Log Out </Link>

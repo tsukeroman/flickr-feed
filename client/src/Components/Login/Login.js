@@ -6,18 +6,17 @@ import './Login.css';
 
 class Login extends Component {
 
+  static propTypes = {
+    AppLogin: PropTypes.func,
+    AppSignup: PropTypes.func
+  };
+
   constructor() {
     super();
     this.state = {
       login: true // if true render login form, if false render signup form
     };
   }
-
-  static propTypes = {
-    AppLogin: PropTypes.func,
-    AppSignup: PropTypes.func
-  };
-
 
   toSignup = () => {
     this.setState({ login: false })

@@ -5,6 +5,7 @@ import './Main.css';
 import Feed from '../Feed/Feed';
 import Explore from '../Explore/Explore';
 import Favorites from '../Favorites/Favorites';
+import Settings from '../Settings/Settings';
 import Login from '../Login/Login';
 
 /* 
@@ -41,8 +42,9 @@ class Main extends Component {
       <div className="Main">
           <Switch>
             <PropsRoute exact path='/' component={Feed} Username={this.props.Username} />
-            <Route path='/Explore' component={Explore} />
+            <PropsRoute path='/Explore' component={Explore} Username={this.props.Username} />
             <PropsRoute path='/Favorites' component={Favorites} Username={this.props.Username} />
+            <PropsRoute path='/Settings' component={Settings} Username={this.props.Username} />
             <Route path='/Login' component={Login} />
           </Switch>
       </div>

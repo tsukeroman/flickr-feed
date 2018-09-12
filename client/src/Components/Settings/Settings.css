@@ -1,0 +1,43 @@
+.Settings {
+	
+}
+
+.top {
+	margin-bottom: 40px;
+}
+
+.interests {
+	text-align: center;
+	border-radius: 20px;
+	text-align: center;
+	background-color: #d6d8db; 
+	width: 50%;
+	margin: 0 25%;
+	padding-bottom: 5px;
+}
+
+.err {
+	color: #f76313;
+	text-align: center;
+	margin-bottom: 10px;
+	font-size: 17px;
+}
+
+.mention {
+	text-align: center;
+	margin-top: 10px;
+	font-size: 17px;
+}
+
+.goto {
+	text-decoration: none;
+	font-weight: bold;
+	color: #242c51;
+}
+
+@media (max-width:700px) {
+	.interests {
+		width: 100%;
+		margin: 0;
+	}
+}

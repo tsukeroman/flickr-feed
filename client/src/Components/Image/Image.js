@@ -73,12 +73,12 @@ class Image extends React.Component {
     .then((res) => {
       if(res.length) {
         /*console.log("Image saved to Favorites");*/
-        Toastr.options = {"positionClass": "toast-bottom-left"}
+        Toastr.options = {"positionClass": "toast-bottom-left"};
         Toastr.success( 'Image Saved To Favorites');
       }
       else {
         /*console.log("Image is already in Favorites");*/
-        Toastr.options = {"positionClass": "toast-bottom-left"}
+        Toastr.options = {"positionClass": "toast-bottom-left"};
         Toastr.info('Image is already in Favorites');
       }
     });

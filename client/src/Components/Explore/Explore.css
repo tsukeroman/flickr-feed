@@ -47,6 +47,28 @@
     color: white;
 }
 
+.button2 {
+    background-color: #d6d8db; 
+    color: black; 
+    font-family: "Times New Roman", Times, serif;
+    font-size: 17px;
+    margin-bottom: 25px;
+}
+
+.button2:focus {
+    outline: 0;    
+}
+
+.button2:active {
+    border-width: 2px;
+    border-color: white;
+}
+
+.button2:hover {
+    background-color: #c1c1c1;
+    color: white;
+}
+
 .SuggestionsMenu {
     display: none;
 }
