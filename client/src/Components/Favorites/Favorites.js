@@ -6,21 +6,21 @@ import './Favorites.css';
 
 
 /*
-This component is responsible for fetching the favorites from the server and viewing 
-them to the user in the Favorites area. The view is responsive and is sensetive to screen 
-size changes.
+  This component is responsible for fetching the favorites from the server and viewing 
+  them to the user in the Favorites area. The view is responsive to screen size changes.
 */
 class Favorites extends Component {
   constructor(props){
     super(props);
     this.state = {
       list: [],
-      favoritesWidth: this.getFavoritesWidth()
+      favoritesWidth: this.props.getWidth()
     }
   }
 
   static propTypes = {
-    Username: PropTypes.string
+    Username: PropTypes.string,
+    getWidth: PropTypes.func
   };
 
   componentDidMount() {
@@ -36,28 +36,27 @@ class Favorites extends Component {
     this.isUnmounted = true; // Kills not returned promises
   }
 
-  getFavoritesWidth(){
-    try {
-      return document.body.clientWidth;
-    } catch (e) {
-      return 1000;
-    }
-  }
-
+  // This function fetches user's favorites list and puts it in the state
   getFavorites = () => {
     fetch('/Favorites')
     .then(res => res.json())
     .then(list => this.setState({ list }))
   }
 
+  // This function calls to getFavorites after the user had removed an image
+  // from favorites
   onRemoveImage = () => {
     this.getFavorites();
   }
 
+  // This handler is called every time that the screen size changes
   handleResize = () => this.setState({
-      favoritesWidth: this.getFavoritesWidth()
+      favoritesWidth: this.props.getWidth()
   });
 
+  // React keeps track of the object in the DOM, so it needs that we'll use an 
+  // unique key id for every element that we render by Array.map method, and we 
+  // use the uuid package for generating such unique id's.
   render() {
     const { list } = this.state;
     return (

@@ -4,6 +4,11 @@ import uuid from 'uuid';
 import './Choices.css';
 import Choice from '../Choice/Choice';
 
+/*
+  This component is responsible for showing a collection of topics as 
+  possbile interests for the user in the sign-up process. This component
+  is rendered by the PreStart component
+*/
 class Choices extends Component {
 
   static propTypes = {
@@ -11,6 +16,7 @@ class Choices extends Component {
     updateNumOfChoices: PropTypes.func
   };
 
+  // We put in the constructor the list of different topics.
   constructor() {
     super();
     this.list = [
@@ -19,11 +25,17 @@ class Choices extends Component {
       'Sculpting', 'Sports', 'Tourism', 'Yoga'
     ];
 
+    // In the state we put an array "statuses" of booleans. This array is of the same size 
+    // as the topics list, each entry in this array represents the status - whether the topic 
+    // had been choosen by the user or not, correspoding to the topic index in the topics list
     this.state = {
       statuses:  new Array(this.list.length).fill(false),
     };
   }
 
+  // This function is passed down to the Choice component, which calls it whenver the user choices
+  // or un-choices a topic. Then, it calls the updateChoices function that was passed down to Choices
+  // component from PreStart in order to update there in state the current number of choosen topics
   updateStatus = (index, bool) => {
   	let i,chosen=0,choices=[];
   	const prevStatus = this.state.statuses;
@@ -38,10 +50,10 @@ class Choices extends Component {
   	this.props.updateChoices(chosen, choices);
   }
 
+  // React keeps track of the object in the DOM, so it needs that we'll use an 
+  // unique key id for every element that we render by Array.map method, and we 
+  // use the uuid package for generating such unique id's.
   render() {
-   
-    //onClick={this.onSubmitChoices}
-
     return (
 	  <div className='Choices'> 
 	    {this.list.map((choice,index) => {

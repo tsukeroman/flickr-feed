@@ -3,6 +3,11 @@ const { Strategy } = require('passport-local');
 const { MongoClient } = require('mongodb');
 const debug = require('debug')('app:local.strategy');
 
+/*
+  This function is the strategy which the server uses to log-in to the app.
+  First it checks whether the user with such username exists, and then whether the password
+  that was passed matches the username. 
+*/
 module.exports = function localStrategy() {
   passport.use(new Strategy({
     usernameField: 'Username',

@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Modal.css';
 
+
+/* 
+  This component is used by Image for dislaying an image in a larger view
+*/
 class Modal extends Component {
 
   constructor(props) {
@@ -16,6 +20,8 @@ class Modal extends Component {
     onClose: PropTypes.func
   };
 
+  // This function is responsible for closing the larger view, when the close
+  // icon is being clicked.
   onCloseModal = () => {
   	this.setState({ display: 'none' }, () => this.props.onClose())
   }

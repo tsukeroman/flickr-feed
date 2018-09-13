@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './SignInForm.css';
 
+/*
+  This component is responsible for the sign-in process. In the state we maintain the data from
+  'Username' and 'Password' input fields, and also we keep in the state entries for error handling
+  so we can notify the state if an error occured and then to render an error message immideately
+*/
 class SignInForm extends Component {
 
   static propTypes = {
     AppLogin: PropTypes.func
   };
 
-  /*
-  This component is responsible for the sign-in process. In the state we maintain the data from
-   the username and the password input fields, and also we keep in the state entries for error handling
-   so we can notify the state if an error accured and to show an error message immideately
-  */
   constructor() {
     super();
     this.state = {
@@ -24,6 +24,9 @@ class SignInForm extends Component {
     };
   }
 
+  // To prevent any kind of "sql-injection" alike atacks, I block input with special 
+  // characters on the front-end, e.g. the server would not get any harmful inputs 
+  // from the client, which could be proceeded later to the database and cause troubles
   validateInput = (str) => {
     const Restricted = `., !?;:"'~@#$%^&*+=/|<>(){}[]`;
     let i;
@@ -35,7 +38,7 @@ class SignInForm extends Component {
     return true;
   }
 
-  // this function handles any change at the input fields
+  // This function handles any change at the input fields
   handleInputChange = (event) => {
     const name = event.target.name;
     if (name === 'Username') {
@@ -46,7 +49,14 @@ class SignInForm extends Component {
     }
   }
 
-  // this function handles a submit, namely a sign-in attempt
+  // This function handles a submit, namely a sign-in attempt
+  // The various possible scenarious are:
+  // *the user hasn't submitted a username
+  // *the username that the user submitted has a not valid format
+  // *the user hasn't submitted a password
+  // If none of these happened, this function talks to the server, and checks
+  // whether the password matches the username, if not, sets an error in the state,
+  // otherwise - the user is being logged in and proceed in to the app.
   handleSubmit = (event) => {
     event.preventDefault();
     if (this.state.Username === '') {
@@ -78,6 +88,7 @@ class SignInForm extends Component {
     }
   }
 
+  // All the potential errors are conditionally rendered accordingly to the state
   render() {
     return ( 
      	<div className="SignInForm">

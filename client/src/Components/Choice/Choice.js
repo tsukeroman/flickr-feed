@@ -22,9 +22,11 @@ import Sports from './images/Sports.jpg';
 import Tourism from './images/Tourism.jpg';
 import Yoga from './images/Yoga.jpg';
 
-
+/* 
+  This component is rendered by Choices, and it is responsible for representing
+  a topic by a corresponding image.
+*/
 class Choice extends Component {
-
   static propTypes = {
     choice: PropTypes.string,
     screenWidth: PropTypes.number,
@@ -40,14 +42,18 @@ class Choice extends Component {
     };
   }
 
+  // This function is responsible for un-marking a topic
   offChoice = () => {
     this.props.updateStatus(this.props.index, false)
   }
 
+  // This function is responsible for marking a topic
   onChoice = () => {
     this.props.updateStatus(this.props.index, true)
   }
 
+  // This function calculates the image size when the app loads and updates 
+  // the 'size' entry in state after every screen resize event
   calcChoiceSize = () => {
     const {screenWidth} = this.props;
     const targetSize = 200;
@@ -58,6 +64,8 @@ class Choice extends Component {
     });
   }
 
+  // This function is responsible for returning a corresponding URL
+  // for a choice
   serveUrl = (choice) => {
     if(choice === 'Animals') {
       return `url(${Animals})`;
@@ -102,30 +110,33 @@ class Choice extends Component {
     } 
   }
 
+  // Here we condionally render an image of the topic, while it
+  // has the topic name on it when isn't choosen, or "CHOSEN" signature
+  // when choosen by the user.
   render() {
     if(this.props.status) {
-    return (
-        <button className="Choice" onClick={this.offChoice}
-          style={{
-            backgroundImage: this.serveUrl(this.props.choice),
-            filter: 'brigthness(110%)',
-            width: this.state.size + 'px',
-            height: this.state.size + 'px'
-          }}>
-          <div className='Chosen'>CHOSEN</div>
-        </button>
-    )} else {
       return (
-        <button className="Choice" onClick={this.onChoice}
-          style={{
-            backgroundImage: this.serveUrl(this.props.choice),
-            filter: 'grayscale(15%)',
-            width: this.state.size + 'px',
-            height: this.state.size + 'px'
-          }}>
-          <div className='NotChosen'>{this.props.choice}</div>
-        </button>
-    )}
+          <button className="Choice" onClick={this.offChoice}
+            style={{
+              backgroundImage: this.serveUrl(this.props.choice),
+              filter: 'brigthness(110%)',
+              width: this.state.size + 'px',
+              height: this.state.size + 'px'
+            }}>
+            <div className='Chosen'>CHOSEN</div>
+          </button>
+      )} else {
+        return (
+          <button className="Choice" onClick={this.onChoice}
+            style={{
+              backgroundImage: this.serveUrl(this.props.choice),
+              filter: 'grayscale(15%)',
+              width: this.state.size + 'px',
+              height: this.state.size + 'px'
+            }}>
+            <div className='NotChosen'>{this.props.choice}</div>
+          </button>
+      )}
   }
 }
 

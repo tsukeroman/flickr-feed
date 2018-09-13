@@ -5,16 +5,28 @@ const passport = require('passport');
 
 const FeedRouter = express.Router();
 
+// The default port of mongo is 27017, and we name the database 'flick-feed'.
+// The collection of users' data in 'flickr-feed' is 'Users'.
 const url = 'mongodb://localhost:27017';
 const dbName = 'flickr-feed';
 const colName = 'Users';
 
+/*
+  This route is responsible for the /Feed route, which I used just for debuggins purposes.
+*/
 FeedRouter.get('/', (req,res) => {
 	if(req.user) {
 		debug(`HELLO ${req.user.Username} nice to see you!`)
 	}
 });
 
+/*
+  This route is responsible for the /Feed/Interest/:Username route, which get an
+  username is a parameter, and retrieves it's object in the response.
+  It is imposible that the user doesn't exist in the database, because the app on 
+  the fornt-end side calls this endpoint from an area which is accessible only
+  for a logged-in user.
+*/
 FeedRouter.get('/Interests/:Username', (req,res) => {
 	const { Username } = req.params;
 	(async function complete() {
@@ -36,6 +48,10 @@ FeedRouter.get('/Interests/:Username', (req,res) => {
 	}());
 })
 
+/*
+  This route is responsible for the /Feed/Interests/Add route, which addes a new
+  interest to user's interests list in the database. 
+*/
 FeedRouter.post('/Interests/Add', (req,res) => {
   const { Username, newInterest } = req.body;
 
@@ -67,6 +83,10 @@ FeedRouter.post('/Interests/Add', (req,res) => {
 
 })
 
+/*
+  This route is responsible for the /Feed/Interests/Delete route, which deletes an 
+  interest from user's interests list in the database. 
+*/
 FeedRouter.post('/Interests/Delete', (req,res) => {
   const { Username, Interests } = req.body;
 

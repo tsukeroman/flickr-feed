@@ -6,9 +6,9 @@ const FavoritesRouter = express.Router();
 
 
 /* 
-Instead of waiting for every response of the database, we maintain in the list array the images
-of Favorites, and every time we add/remove image, we do on list and pass a response to the client,
-and just then we talk to the database.
+Instead of waiting for every response of the database, we maintain list, which is an array of the 
+images in Favorites, and every time we add/remove image, we do on list and pass a response to the 
+client, and then we talk to the database.
 It is a kind of optimistic updating, since we can't be sure that the call to the database will
 succes, but we earn a great improvement of the performance, since MongoDB is pretty slow.
 */
@@ -17,9 +17,8 @@ let list = [];
 // The default port of mongo is 27017, and we name the database 'flick-feed'
 const url = 'mongodb://localhost:27017';
 const dbName = 'flickr-feed';
-const userName = 'user01';
 
-
+// We use a function which concentrates all the routes of FavoritesRouter
 function router() {
   /* 
   This route is responsible for the /Favorites route, passes the favorites from the database

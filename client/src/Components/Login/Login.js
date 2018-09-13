@@ -4,6 +4,10 @@ import SignInForm from '../SignInForm/SignInForm';
 import SignUpForm from '../SignUpForm/SignUpForm';
 import './Login.css';
 
+/*
+This component is responsible for the log-in and the sign-up, it conditionally
+renders each one of them according to 'login' in it's state.
+*/
 class Login extends Component {
 
   static propTypes = {
@@ -14,18 +18,23 @@ class Login extends Component {
   constructor() {
     super();
     this.state = {
-      login: true // if true render login form, if false render signup form
+      login: true // if true renders login form, if false renders signup form
     };
   }
 
+  // This function sets 'login' to false, what means that Login will render 
+  // a sign-up form now
   toSignup = () => {
     this.setState({ login: false })
   }
 
+  // This function sets 'login' to true, what means that Login will render 
+  // a log-in form now
   toLogin = () => {
     this.setState({ login: true })
   }
 
+  // Conditional rendering according to 'login' in state
   render() {
     if(this.state.login) {
       return (

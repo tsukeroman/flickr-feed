@@ -5,6 +5,9 @@ import Modal from '../Modal/Modal';
 import Toastr from 'toastr';
 import 'toastr/toastr.css';  
 
+/*
+  This components is responsible to represent an image by it's Flickr url
+*/
 class Image extends React.Component {
   static propTypes = {
     dto: PropTypes.object,
@@ -29,8 +32,8 @@ class Image extends React.Component {
     this.calcImageSize();
   }
 
-  // this function calculates the image size when the app loads and after
-  // every screen size event
+  // This function calculates the image size when the app loads and updates 
+  // the 'size' entry in state after every screen resize event
   calcImageSize = () => {
     const {screenWidth} = this.props;
     const targetSize = 200;
@@ -41,24 +44,25 @@ class Image extends React.Component {
     });
   }
 
-  // this function constructs the url of the image by it's object
+  // This function constructs the url of the image by it's info object
   urlFromDto(dto) {
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
   }
 
-  // this function is responisble to showing an image in a larger view
+  // This function is responisble for showing an image in a larger view
   onExpand = () => {
     this.setState({ isOpen: true })
   }
 
-  // this function is responsible to close the larger view that has been triggered by
-  // the function above 
+  // This function is responsible to close the larger view that has been triggered by
+  // the onExpand function 
   onClose = () => {
     this.setState({ isOpen: false })
   }
 
-  // this function is responsible to call the server whenever the user liked an image
-  // in order to save the image in favorites
+  // This function is calls the server whenever the user has liked an image
+  // in order to save the image in user's favorites
+  // when the server responses, this function shows a toastr massage
   onFavorite = () => {
     const Image = this.props.dto;
     fetch('/Favorites/Add', {
@@ -84,7 +88,7 @@ class Image extends React.Component {
     });
   };
 
-  // this function is responsible to call the server whenever the user un-liked an image
+  // This function is calls the server whenever the user has un-liked an image
   // in order to delete the image from favorites
   offFavorite = () => {
     const Image = this.props.dto;
@@ -103,10 +107,10 @@ class Image extends React.Component {
     });
   };
 
-  // we render by conditional rendering a modal for viewing pictures on a larger view, 
-  // the state is maintained in the component state. also we use conditional rendering 
-  // to determine wether to show "like" button for image in Explore area, or to show
-  // "un-like" button for image in favorites
+  // We render by conditional rendering a modal for viewing pictures on a larger view, 
+  // it's status is maintained in the component state. Also we use conditional rendering 
+  // to determine whether to show a "like" button for an image in Explore area, or to show
+  // an "un-like" button for an image in Favorites
   render() {
     return (
         <div

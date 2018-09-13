@@ -3,10 +3,15 @@ import PropTypes from 'prop-types';
 import './Feed.css';
 import Gallery from '../Gallery/Gallery';
 
+/*
+  This component is the default app components (sits on '/' route), and it 
+  shows the user a collection of images based on his interests
+*/
 class Feed extends Component {
 
   static propTypes = {
-    Username: PropTypes.string
+    Username: PropTypes.string,
+    getWidth: PropTypes.func
   };
 
   constructor() {
@@ -20,6 +25,7 @@ class Feed extends Component {
     this.getInterests();
   }
 
+  // This function fetch from the server the list of user's interests and puts it in the state
   getInterests = () => {
     fetch(`/Feed/Interests/${this.props.Username}`)
       .then(res => res.json())
@@ -27,6 +33,9 @@ class Feed extends Component {
       .then(res => this.setState({ interests: res.Interests }))
   }
 
+  // Here we take the list of user's interests from the state, and make a string of interests
+  // seperated by a comma, and pass it to the Gallery component which uses this string to
+  // fetch the images from Flickr accoring to Flickr's API.
   render() {
     let tags = this.state.interests.join(',');
     return (
@@ -35,7 +44,7 @@ class Feed extends Component {
         	<h2>Hello {this.props.Username},</h2>
           <h3>We have organized for you the latest photos based on your interests</h3>
         </div>
-        <Gallery tag={tags} />
+        <Gallery tag={tags} getWidth={this.props.getWidth} />
       </div>
     );
   }

@@ -1,9 +1,3 @@
-/*
-This components is the top bar of the app. When the user is logged the top bar is fixed on the 
-top of the page, and it includes links to any area of the app. Since the app uses a react router,
-the transition from page to page is very fast. Also, the topbar is responsive to the screen size
-*/
-
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -13,18 +7,27 @@ import { faBars } from '@fortawesome/free-solid-svg-icons'
 import './Topbar.css';
 import logo from '../../logo.png';
 
-library.add(faBars);
+library.add(faBars); //adding an icon from FontAwesome to it's library
 
+
+/*
+This components is the top bar of the app. When the user is logged the top bar is fixed on the 
+top of the page, and it includes links to any area of the app and the logout button. Since the app 
+uses a react router, the transition from page to page is very fast. Also, the topbar is responsive 
+to the screen size, i.e. when screen size goes below 700px, all the links dissapear and a menu 
+button appears on the right corner of the bar. 
+*/
 class Topbar extends Component {
 
   static propTypes = {
-    AppLogout: PropTypes.func
+    AppLogout: PropTypes.func,
+    getWidth: PropTypes.func
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      width: this.getBarWidth(),
+      width: this.props.getWidth(),
       littleWidth: false,
       responsiveBar: false
     }
@@ -32,7 +35,7 @@ class Topbar extends Component {
 
   componentDidMount() {
     window.addEventListener('resize', this.handleResize);
-    this.setState({ width: this.getBarWidth() });
+    this.setState({ width: this.props.getWidth() });
   }
 
   componentWillUnmount() {
@@ -40,21 +43,16 @@ class Topbar extends Component {
     this.isUnmounted = true; // Kills not returned promises
   }
 
-  // this function is responsible for the log-out link at the top bar.
+  // This function is responsible for the log-out link at the top bar.
   AppLogout = () => {
     this.props.AppLogout();
   }
 
-  getBarWidth = () => {
-    try {
-      return document.body.clientWidth;
-    } catch (e) {
-      return 1000;
-    }
-  }
-
+  // This function is the 'resize' event handler. It is responsible for updating the state 
+  // with the current screen width after every resize, and also updates 'littleWidth' in the 
+  // state to true if the width went below 700px
   handleResize = () => {
-    const width = this.getBarWidth();
+    const width = this.props.getWidth();
     if (width < 700) {
       this.setState({ width: width, littleWidth: true })
     } else {
@@ -62,15 +60,18 @@ class Topbar extends Component {
     }
   }
 
+  // This function toggles 'responsiveBar' value in the state, which is responsible for showing
+  // and hiding the menu when the user clicks on the menu button when the screen width is 
+  // under 700px
   toggleResponsive = () => {
     this.setState(prevState => ({ responsiveBar: !prevState.responsiveBar}))
   }
 
 
   /*
-  The topbar is responsive to size changes, i.e. when the screen width is larger then 600px it 
-  shows all the links, but whenever the width goes below 600px, the links dissapear and instead 
-  it shows an icon which is responsible for showing the links when the user clicks on it
+  The topbar is responsive to size changes, i.e. when the screen width is larger then 700px it 
+  shows all the links, but whenever the width goes below 700px, the links dissapear and instead 
+  it shows a button which is responsible for showing the links whenever the user clicks on it
   */
   render() {
     if (this.state.littleWidth === false) {

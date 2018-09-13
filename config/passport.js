@@ -1,6 +1,11 @@
 const passport = require('passport');
 require('./strategies/local.strategy')();
 
+/*
+	This function initializes and configures passport, which is responsible 
+	for the user management on our server.
+*/
+
 module.exports = function passportConfig(app) {
 	app.use(passport.initialize());
 	app.use(passport.session());

@@ -5,13 +5,21 @@ import Image from '../Image/Image';
 import uuid from 'uuid';
 import './Gallery.css';
 
+
+/*
+  This component represents a collection of images, whether the images the user searched for in
+  Explore or the images based on interests in Feed. It fetches the images data from Flickr API
+  by the relevant 'tags' and renders them in Image components.
+*/
 class Gallery extends React.Component {
   static propTypes = {
-    tag: PropTypes.string
+    tag: PropTypes.string,
+    getWidth: PropTypes.func
   };
 
-  // the state maintains the list of images that are viewed on the page,
-  // and also maintains all the info we need for the infinite scrolling feature
+  // The state maintains the list of images that are viewed on the page,
+  // and also maintains all the info that we need for fetching the images from Flickr API and 
+  // for the infinite scrolling feature
   constructor(props) {
     super(props);
     this.state = {
@@ -20,10 +28,12 @@ class Gallery extends React.Component {
       page: 1,
       totalPages: null,
       scrolling: false,
-      galleryWidth: this.getGalleryWidth()
+      galleryWidth: this.props.getWidth()
     };
   }
 
+  // Here we add listeners to 'resize' and 'scroll' events, so the component
+  // is responsive for such event occurrences.
   componentDidMount() {
     window.addEventListener('resize', this.handleResize);
     window.addEventListener('scroll', this.handleScroll);
@@ -39,39 +49,21 @@ class Gallery extends React.Component {
     this.isUnmounted = true; // Kills not returned promises
   }
 
+  // Every time that the user inserts a new search value the component fetches the 
+  // corresponding images, but it's important to clear the state from the previous
+  // images.
   componentWillReceiveProps(props) {
     this.setState({ images: [] }, () => this.getImages(props.tag))
   }
 
-  // this function is responsible for checking the screen width in order to 
-  // optimally fit the images size to the screen
-  getGalleryWidth = () => {
-    try {
-      return document.body.clientWidth;
-    } catch (e) {
-      return 1000;
-    }
-  }
-
-  //this function is reponsible for fetching images from Flickr servers
+  // This function is reponsible for fetching images from Flickr's API and setting
+  // them in the state
   getImages = (tag) => {
-    /*let i,j,flag = 0;
-    const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';*/
     const { per_page, page } = this.state;
     const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=57b8bb3af162b9c04507be7b6dba0fb8&tags=
     ${tag}&tag_mode=any&per_page=${per_page}&page=${page}&format=json&safe_search=1&nojsoncallback=1`;
     const baseUrl = 'https://api.flickr.com/';
-    /*for(i=0; i<tag.length; i++) {
-      for(j=0; j<letters.length;j++) {
-        if( tag[i] === letters[j] ) {
-          flag+=1;
-          break;
-        }
-      } 
-      if(flag > 0) {
-        break;
-      }
-    }*/
+    
     if(tag === '') {
       this.setState({ images: [] })
     } else {
@@ -101,14 +93,13 @@ class Gallery extends React.Component {
     }
   }
 
-  // this handler is called each time the screen size changes
+  // This handler is called every time that the screen size changes
   handleResize = () => this.setState({
-      galleryWidth: this.getGalleryWidth()
+      galleryWidth: this.props.getWidth()
   });
 
-  // this handler is called each time the user scrolls over the page
-  // since we implemented an infinite scrolling in the app, this handler 
-  // is very important
+  // This handler is called every time that the user scrolls over the page,
+  // and the infinite scrolling feature is based on it.
   handleScroll = () => {
     const { scrolling, totalPages, page} = this.state;
     if (scrolling) return;
@@ -122,7 +113,8 @@ class Gallery extends React.Component {
     }
   };
 
-  // this function load more images when the user scrolled over all the images
+  // This function load more images whenever the user has scrolled over
+  // all the presented images
   loadMore = () => {
     this.setState({
       page: this.state.page + 1,
@@ -130,6 +122,9 @@ class Gallery extends React.Component {
      }, () => this.getImages(this.props.tag))
   };
 
+  // React keeps track of the object in the DOM, so it needs that we'll use an 
+  // unique key id for every element that we render by Array.map method, and we 
+  // use the uuid package for generating such unique id's.
   render() {
     return (
       <div className="gallery-root">

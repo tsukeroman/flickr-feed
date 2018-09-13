@@ -3,17 +3,22 @@ import PropTypes from 'prop-types';
 import './PreStart.css';
 import Choices from '../Choices/Choices';
 
+/*
+  This component is responsible for welcoming the user when after he sign-ups,
+  and getting from him atleast 5 of his interests.
+*/
 class PreStart extends Component {
 
   static propTypes = {
     CompleteRegistration: PropTypes.func,
-    Username: PropTypes.string
+    Username: PropTypes.string,
+    getWidth: PropTypes.func
   };
 
   constructor() {
     super();
     this.state = {
-      ChoicesWidth: this.getChoicesWidth(),
+      ChoicesWidth: 1000,
       numOfChoices: 0,
       choices: []
     };
@@ -30,22 +35,19 @@ class PreStart extends Component {
     window.removeEventListener('resize', this.handleResize);
   }
   
-  getChoicesWidth = () => {
-    try {
-      return document.body.clientWidth;
-    } catch (e) {
-      return 1000;
-    }
-  }
-
+  // This handler is called every time that the screen size changes
   handleResize = () => this.setState({
-      ChoicesWidth: this.getChoicesWidth()
+      ChoicesWidth: this.props.getWidth()
   })
 
+  // This function updates in the state the number of choices that are 
+  // currently marked by the user
   updateChoices = (val, choices) => {
     this.setState({ numOfChoices: val, choices: choices })
   }
 
+  // This function is responsible for submitting user's choices in order 
+  // to complete the registration
   onSubmitChoices = () => {
     this.props.CompleteRegistration(this.state.choices);
   }
@@ -69,6 +71,11 @@ class PreStart extends Component {
   }
 }
 
+// This function is a stateless component that we pass in the number of interests 
+// that the user has marked and a submit function, and then, if the user marked less
+// then 5 interests the components presents a message with the number of interests
+// that remained to the user to mark, or otherwise, the component presents a button
+// that a clicking on it completes the sign-up process
 const Start = (num, func) => {
   if(num === 0) {
     return <div></div>;

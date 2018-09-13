@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './SignUpForm.css';
 
+/*
+  This component is responsible for the sign-up process. In the state we maintain the data from
+  'Username' and 'Password' input fields, and also we keep in the state entries for error handling
+  so we can notify the state if an error occured and then to render an error message immideately
+*/
 class SignUpForm extends Component {
 
   static propTypes = {
     AppSignup: PropTypes.func
   };
 
-  /*
-  This component is responsible for the sign-up process. In the state we maintain the data from
-   the username and the password input fields, and also we keep in the state entries for error handling
-   so we can notify the state if an error accured and to show an error message immideately
-  */
   constructor() {
     super();
     this.state = {
@@ -26,7 +26,9 @@ class SignUpForm extends Component {
     };
   }
 
-
+  // To prevent any kind of "sql-injection" alike atacks, I block input with special 
+  // characters on the front-end, e.g. the server would not get any harmful inputs 
+  // from the client, which could be proceeded later to the database and cause troubles
   validateInput = (str) => {
     const Restricted = `., !?;:"'~@#$%^&*+=/|<>(){}[]\\`;
     let i;
@@ -38,7 +40,7 @@ class SignUpForm extends Component {
     return true;
   }
 
-  // this function handles any change at the input fields
+  // This function handles any change in the input fields
   handleInputChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -52,7 +54,14 @@ class SignUpForm extends Component {
     }
   }
 
-  // this function handles a submit, namely a sign-up attempt
+  // This function handles a submit, namely a sign-up attempt.
+  // The various possible scenarious are:
+  // *the user hasn't submitted a username
+  // *the username that the user submitted has a not valid format
+  // *the user hasn't submitted a password
+  // If none of these happened, this function talks to the server, and checks
+  // whether the username is taken, if yes, sets an error in the state,
+  // otherwise - the user is created and being proceed in to the app.
   handleSubmit = (event) => {
     event.preventDefault();
     if (this.state.Username === '') {
@@ -89,7 +98,7 @@ class SignUpForm extends Component {
     }
   }
 
-
+  // All the potential errors are conditionally rendered accordingly to the state
   render() {
     return (
      	<div className="SignUpForm">

@@ -5,21 +5,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import './Setting.css';
 
-library.add(faTrash);
+library.add(faTrash); //adding an icon from FontAwesome to it's library
 
-class Settings extends Component {
+/*
+  This component is being rendered by Settings component, and it represents an interest,
+  and a delete button for this interest
+*/
+class Setting extends Component {
 
   static propTypes = {
-    interest: PropTypes.string
+    interest: PropTypes.string,
+    deleteInterest: PropTypes.func
   };
 
-  constructor() {
-    super();
-    this.state = {
-      
-    };
-  }
-
+  // This function is responsible for deleting this interest for user's interests list
   deleteInterest = () => {
     this.props.deleteInterest(this.props.interest);
   }
@@ -36,4 +35,4 @@ class Settings extends Component {
   }
 }
 
-export default Settings;
+export default Setting;
