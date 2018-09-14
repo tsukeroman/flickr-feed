@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "A web app that simuates a social network based on Flickr API",
   "main": "server.js",
-  "scripts": {
+  /*"scripts": {
     "start": "set DEBUG=app, set app:* & nodemon server.js",
     "test": "test"
+  },*/
+   "scripts": {
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "repository": {
     "type": "git",
