@@ -17,6 +17,10 @@
     "url": "https://github.com/tsukeroman/flickr-feed/issues"
   },
   "homepage": "https://github.com/tsukeroman/flickr-feed#readme",
+  "engines": {
+    "npm": "6.3.0",
+    "node": "10.7.0"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "1.2.4",
     "@fortawesome/free-solid-svg-icons": "5.3.1",
