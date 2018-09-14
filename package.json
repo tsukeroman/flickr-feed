@@ -4,7 +4,7 @@
   "description": "A web app that simuates a social network based on Flickr API",
   "main": "server.js",
   "scripts": {
-    "start": "set DEBUG=app, set app:* & nodemon app.js",
+    "start": "set DEBUG=app, set app:* & nodemon server.js",
     "test": "test"
   },
   "repository": {
