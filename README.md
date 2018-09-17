@@ -6,24 +6,25 @@ ________________________________________
 I deployed Flickr-Feed to Heroku, you can visit the app at:
 https://flickr-feed-app.herokuapp.com/
 
-The app was developed in Javascript, React for the front-end, Node.js for the back-end and it uses a MongoDB database. Also, it uses the passport.js middleware with a local strategy for authentication.
-The client uses a proxy to communicate with the server.
+The app was developed in Javascript, React for the front-end, Node.js with Express for the back-end and it uses a MongoDB database. Also, it uses the passport.js middleware with a local strategy for authentication.
+The client-side uses a proxy to communicate with the server.
+The app interacts with a third party API - Flickr's API.
 ________________________________________
 
 In order to run the app you have to run the following commands in the terminal from the the root folder: 
 (I assume that you use linux, or that you run git-bash on windows)
 
-$ npm start
-$ cd client
-$ npm start
+$ npm start   
+$ cd client   
+$ npm start   
 
 I pushed the app with all the dependencies installed, so it should be enough, but if you are having any problems with running the app, run the following commands from the root folder:
 
-$ npm install
-$ npm start
-$ cd client
-$ npm install
-$ npm start
+$ npm install   
+$ npm start   
+$ cd client   
+$ npm install   
+$ npm start   
 
 *** Notice that the app runs on 3000 and 5000 ports, so you should validate that these ports are not in use *** 
 *** Also, very important to note, in order to run the app on your PC, you need to have mongoDB installed and to have it's server running, since the app can't work without a database ***
