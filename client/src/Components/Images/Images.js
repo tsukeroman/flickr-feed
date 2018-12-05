@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import Image from '../Image/Image';
 import uuid from 'uuid';
-import './Gallery.css';
+import './Images.css';
 
 
 /*
@@ -11,7 +11,7 @@ import './Gallery.css';
   Explore or the images based on interests in Feed. It fetches the images data from Flickr API
   by the relevant 'tags' and renders them in Image components.
 */
-class Gallery extends React.Component {
+class Images extends React.Component {
   static propTypes = {
     tag: PropTypes.string,
     getWidth: PropTypes.func
@@ -28,7 +28,7 @@ class Gallery extends React.Component {
       page: 1,
       totalPages: null,
       scrolling: false,
-      galleryWidth: this.props.getWidth()
+      imagesWidth: this.props.getWidth()
     };
   }
 
@@ -39,7 +39,7 @@ class Gallery extends React.Component {
     window.addEventListener('scroll', this.handleScroll);
     this.getImages(this.props.tag);
     this.setState({
-      galleryWidth: document.body.clientWidth
+      imagesWidth: document.body.clientWidth
     });
   }
 
@@ -74,12 +74,6 @@ class Gallery extends React.Component {
       })
         .then(res => res.data)
         .then(res => {
-          if (
-            res &&
-            res.photos &&
-            res.photos.photo &&
-            res.photos.photo.length > 0
-          ) {
             if (this.isUnmounted) {
               return;
             }
@@ -88,14 +82,13 @@ class Gallery extends React.Component {
               scrolling: false,
               totalPages: res.photos.total
             });
-          }
         });
     }
   }
 
   // This handler is called every time that the screen size changes
   handleResize = () => this.setState({
-      galleryWidth: this.props.getWidth()
+      imagesWidth: this.props.getWidth()
   });
 
   // This handler is called every time that the user scrolls over the page,
@@ -104,7 +97,7 @@ class Gallery extends React.Component {
     const { scrolling, totalPages, page} = this.state;
     if (scrolling) return;
     if (totalPages <= page) return;
-    var lastLi = document.querySelector('div.gallery-root:last-child');
+    var lastLi = document.querySelector('div.images:last-child');
     var lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
     var pageOffset = window.pageYOffset + window.innerHeight;
     var bottomOffset = 20;
@@ -127,13 +120,13 @@ class Gallery extends React.Component {
   // use the uuid package for generating such unique id's.
   render() {
     return (
-      <div className="gallery-root">
-        {this.state.images.map(dto => {
+      <div className="images">
+        {this.state.images.map(obj => {
           return <Image 
                   key={uuid.v4()} 
-                  dto={dto} 
-                  screenWidth={this.state.galleryWidth} 
-                  base='Gallery' 
+                  obj={obj} 
+                  screenWidth={this.state.imagesWidth} 
+                  base='Images'
                 />;
         })}
       </div>
@@ -141,4 +134,4 @@ class Gallery extends React.Component {
   }
 }
 
-export default Gallery;
+export default Images;

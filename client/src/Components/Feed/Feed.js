@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Feed.css';
-import Gallery from '../Gallery/Gallery';
+import Images from '../Images/Images';
 
 /*
   This component is the default app components (sits on '/' route), and it 
@@ -34,7 +34,7 @@ class Feed extends Component {
   }
 
   // Here we take the list of user's interests from the state, and make a string of interests
-  // seperated by a comma, and pass it to the Gallery component which uses this string to
+  // seperated by a comma, and pass it to the Images component which uses this string to
   // fetch the images from Flickr accoring to Flickr's API.
   render() {
     let tags = this.state.interests.join(',');
@@ -44,7 +44,7 @@ class Feed extends Component {
         	<h2>Hello {this.props.Username},</h2>
           <h3>We have organized for you the latest photos based on your interests</h3>
         </div>
-        <Gallery tag={tags} getWidth={this.props.getWidth} />
+        <Images tag={tags} getWidth={this.props.getWidth} />
       </div>
     );
   }

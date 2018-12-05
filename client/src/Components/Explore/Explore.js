@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import './Explore.css';
 import Search from '../Search/Search';
-import Gallery from '../Gallery/Gallery';
+import Images from '../Images/Images';
 import Toastr from 'toastr';
 import 'toastr/toastr.css'; 
 
@@ -14,9 +14,9 @@ library.add(faCaretDown); //adding an icon from FontAwesome to it's library
 
 /*
 This component is responsible for the Explore area of the app. On it's top there is a search field,
-represented by the Search component, and under the search there is the Gallery component which shows
+represented by the Search component, and under the search there is the Images component which shows
 the images that were fetched from Flickr accordingly to the search value.
-This "container" component for search and gallery, allows us to add complexed features to 
+This "container" component for search and images, allows us to add complexed features to 
 each of them, to manipulate each state without causing re-render to both, and keep the code organaized. 
 */
 class Explore extends Component {
@@ -34,7 +34,7 @@ class Explore extends Component {
 	}
 
 	/* 
-		This function is responsible for setting the search value that we'll be passed to Gallery
+		This function is responsible for setting the search value that we'll be passed to Images
 		in state, but it does it in a delayed manner, i.e. it waits 0.5sec after the user stops typing 
 		before it manipulates the state. It's a good practise that helps us to avoid unnecessary calls 
 		to a remote API after each key press
@@ -112,7 +112,7 @@ class Explore extends Component {
 			         : 
 			        (<div></div>)
 			    }
-				<Gallery tag={this.state.tag} getWidth={this.props.getWidth} />
+				<Images tag={this.state.tag} getWidth={this.props.getWidth} />
 			</div>
 		);
 	}

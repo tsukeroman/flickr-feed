@@ -66,7 +66,7 @@ class Favorites extends Component {
           {list.map((item) => {
                   return(
                       <Image 
-                        dto={item} 
+                        obj={item} 
                         key={uuid.v4()} 
                         screenWidth={this.state.favoritesWidth} 
                         base='Favorites' 

@@ -1,4 +1,4 @@
-.image-root {
+.image {
   background-size: cover;
   background-position: center center;
   display: inline-block;
@@ -7,7 +7,7 @@
   position: relative;
   border: 1px solid white;
 }
-.image-root > div {
+.image > div {
   visibility: hidden;
   background: rgba(0, 0, 0, 0.7);
   cursor: pointer;
@@ -26,10 +26,10 @@
   align-items: center;
   justify-content: center;
 }
-.image-root:hover > div {
+.image:hover > div {
   visibility: visible;
 }
-.image-root .image-icon {
+.image .imageBtn {
   font-size: 15px;
   vertical-align: middle;
   border: 1px solid #ccc;
@@ -39,7 +39,7 @@
   padding: 5px;
   margin: 3px;
 }
-.image-root .image-icon:hover {
+.image .imageBtn:hover {
   color: white;
   border-color: white;
 }

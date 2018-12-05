@@ -10,7 +10,7 @@ import 'toastr/toastr.css';
 */
 class Image extends React.Component {
   static propTypes = {
-    dto: PropTypes.object,
+    obj: PropTypes.object,
     screenWidth: PropTypes.number,
     base: PropTypes.string,
     onRemoveImage: PropTypes.func
@@ -25,28 +25,28 @@ class Image extends React.Component {
   }
 
   componentDidMount() {
-    this.calcImageSize();
+    this.getSize();
   }
 
   componentWillReceiveProps(props) {
-    this.calcImageSize();
+    this.getSize();
   }
 
   // This function calculates the image size when the app loads and updates 
   // the 'size' entry in state after every screen resize event
-  calcImageSize = () => {
+  getSize = () => {
     const {screenWidth} = this.props;
     const targetSize = 200;
-    const imagesPerRow = Math.round(screenWidth / targetSize);
-    const size = (screenWidth / imagesPerRow);
+    const imagesInRow = Math.round(screenWidth / targetSize);
+    const size = (screenWidth / imagesInRow);
     this.setState({
       size
     });
   }
 
   // This function constructs the url of the image by it's info object
-  urlFromDto(dto) {
-    return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
+  urlFromObj = (obj) => {
+    return `https://farm${obj.farm}.staticflickr.com/${obj.server}/${obj.id}_${obj.secret}.jpg`;
   }
 
   // This function is responisble for showing an image in a larger view
@@ -64,7 +64,7 @@ class Image extends React.Component {
   // in order to save the image in user's favorites
   // when the server responses, this function shows a toastr massage
   onFavorite = () => {
-    const Image = this.props.dto;
+    const Image = this.props.obj;
     fetch('/Favorites/Add', {
       method: 'post',
       headers: {
@@ -91,7 +91,7 @@ class Image extends React.Component {
   // This function is calls the server whenever the user has un-liked an image
   // in order to delete the image from favorites
   offFavorite = () => {
-    const Image = this.props.dto;
+    const Image = this.props.obj;
     fetch('/Favorites/Remove', {
       method: 'post',
       headers: {
@@ -114,18 +114,18 @@ class Image extends React.Component {
   render() {
     return (
         <div
-          className="image-root"
+          className="image"
           style={{
-            backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
+            backgroundImage: `url(${this.urlFromObj(this.props.obj)})`,
             width: this.state.size + 'px',
             height: this.state.size + 'px'
           }}
           >
-          <span> {this.state.isOpen && <Modal src={this.urlFromDto(this.props.dto)} onClose={this.onClose} />} </span>
+          <span> {this.state.isOpen && <Modal src={this.urlFromObj(this.props.obj)} onClose={this.onClose} />} </span>
           <div>
-            <button className='image-icon' onClick={this.onExpand}> Expand </button>
-            {(this.props.base === 'Gallery') ? <button className='image-icon' onClick={this.onFavorite}> Like </button> : <div></div>}
-            {(this.props.base === 'Favorites') ? <button className='image-icon' onClick={this.offFavorite}> Unlike </button> : <div></div>}
+            <button className='imageBtn' onClick={this.onExpand}> Expand </button>
+            {(this.props.base === 'Images') ? <button className='imageBtn' onClick={this.onFavorite}> Like </button> : <div></div>}
+            {(this.props.base === 'Favorites') ? <button className='imageBtn' onClick={this.offFavorite}> Unlike </button> : <div></div>}
           </div>
         </div>
     );
