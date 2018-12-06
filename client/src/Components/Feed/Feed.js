@@ -10,8 +10,7 @@ import Images from '../Images/Images';
 class Feed extends Component {
 
   static propTypes = {
-    Username: PropTypes.string,
-    getWidth: PropTypes.func
+    Username: PropTypes.string
   };
 
   constructor() {
@@ -44,7 +43,7 @@ class Feed extends Component {
         	<h2>Hello {this.props.Username},</h2>
           <h3>We have organized for you the latest photos based on your interests</h3>
         </div>
-        <Images tag={tags} getWidth={this.props.getWidth} />
+        <Images tag={tags} />
       </div>
     );
   }

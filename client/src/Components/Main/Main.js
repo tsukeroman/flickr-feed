@@ -37,17 +37,16 @@ This component routes between the different areas in the app when the user is lo
 */ 
 class Main extends Component {
   static propTypes = {
-    Username: PropTypes.string,
-    getWidth: PropTypes.func
+    Username: PropTypes.string
   };
 
   render() {
     return (
       <div className="Main">
           <Switch>
-            <PropsRoute exact path='/' component={Feed} Username={this.props.Username} getWidth={this.props.getWidth} />
-            <PropsRoute path='/Explore' component={Explore} Username={this.props.Username} getWidth={this.props.getWidth} />
-            <PropsRoute path='/Favorites' component={Favorites} Username={this.props.Username} getWidth={this.props.getWidth} />
+            <PropsRoute exact path='/' component={Feed} Username={this.props.Username} />
+            <PropsRoute path='/Explore' component={Explore} Username={this.props.Username} />
+            <PropsRoute path='/Favorites' component={Favorites} Username={this.props.Username} />
             <PropsRoute path='/Settings' component={Settings} Username={this.props.Username} />
             <Route path='/Login' component={Login} />
           </Switch>

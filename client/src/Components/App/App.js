@@ -26,16 +26,6 @@ class App extends Component {
     this.CheckIfLogged();
   }
 
-  // This function is responsible for checking the screen width in order to 
-  // optimally fit the images size to the screen
-  getWidth = () => {
-    try {
-      return document.body.clientWidth;
-    } catch (e) {
-      return 1000;
-    }
-  }
-
   // This function talks to the server, and checks whether the user is logged in and
   // completed his registration, logged in and hadn't completed the registration, or
   // isn't logged in
@@ -111,14 +101,14 @@ class App extends Component {
       if(this.state.CompletedReg) {
         return (
           <div className="App">
-            <Topbar AppLogout={this.AppLogout} getWidth={this.getWidth} />
-            <Main Username={this.state.Username} getWidth={this.getWidth} />
+            <Topbar AppLogout={this.AppLogout} />
+            <Main Username={this.state.Username} />
           </div>
         );
       }
       else {
         return (
-          <PreStart CompleteRegistration={this.CompleteRegistration} Username={this.state.Username} getWidth={this.getWidth} />
+          <PreStart CompleteRegistration={this.CompleteRegistration} Username={this.state.Username} />
         );
       }
     }

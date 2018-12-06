@@ -12,7 +12,6 @@ import Choice from '../Choice/Choice';
 class Choices extends Component {
 
   static propTypes = {
-    ChoicesWidth: PropTypes.number,
     updateNumOfChoices: PropTypes.func
   };
 
@@ -57,7 +56,7 @@ class Choices extends Component {
     return (
 	  <div className='Choices'> 
 	    {this.list.map((choice,index) => {
-	      return <Choice key={uuid.v4()} choice={choice} screenWidth={this.props.ChoicesWidth}
+	      return <Choice key={uuid.v4()} choice={choice}
 	        status={this.state.statuses[index]} updateStatus={this.updateStatus} index={index} />
 	    })}
 	  </div>

@@ -13,8 +13,7 @@ import './Images.css';
 */
 class Images extends React.Component {
   static propTypes = {
-    tag: PropTypes.string,
-    getWidth: PropTypes.func
+    tag: PropTypes.string
   };
 
   // The state maintains the list of images that are viewed on the page,
@@ -27,8 +26,7 @@ class Images extends React.Component {
       per_page: 100,
       page: 1,
       totalPages: null,
-      scrolling: false,
-      imagesWidth: this.props.getWidth()
+      scrolling: false
     };
   }
 
@@ -38,9 +36,6 @@ class Images extends React.Component {
     window.addEventListener('resize', this.handleResize);
     window.addEventListener('scroll', this.handleScroll);
     this.getImages(this.props.tag);
-    this.setState({
-      imagesWidth: document.body.clientWidth
-    });
   }
 
   componentWillUnmount() {
@@ -86,11 +81,6 @@ class Images extends React.Component {
     }
   }
 
-  // This handler is called every time that the screen size changes
-  handleResize = () => this.setState({
-      imagesWidth: this.props.getWidth()
-  });
-
   // This handler is called every time that the user scrolls over the page,
   // and the infinite scrolling feature is based on it.
   handleScroll = () => {
@@ -125,7 +115,6 @@ class Images extends React.Component {
           return <Image 
                   key={uuid.v4()} 
                   obj={obj} 
-                  screenWidth={this.state.imagesWidth} 
                   base='Images'
                 />;
         })}

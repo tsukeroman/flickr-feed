@@ -29,18 +29,10 @@ import Yoga from './images/Yoga.jpg';
 class Choice extends Component {
   static propTypes = {
     choice: PropTypes.string,
-    screenWidth: PropTypes.number,
     status: PropTypes.bool,
     updateStatus: PropTypes.func,
     index: PropTypes.number
   };
-
-  constructor() {
-    super();
-    this.state = {
-      size: 200,
-    };
-  }
 
   // This function is responsible for un-marking a topic
   offChoice = () => {
@@ -50,18 +42,6 @@ class Choice extends Component {
   // This function is responsible for marking a topic
   onChoice = () => {
     this.props.updateStatus(this.props.index, true)
-  }
-
-  // This function calculates the image size when the app loads and updates 
-  // the 'size' entry in state after every screen resize event
-  calcChoiceSize = () => {
-    const {screenWidth} = this.props;
-    const targetSize = 200;
-    const imagesPerRow = Math.round(screenWidth / targetSize);
-    const size = (screenWidth / imagesPerRow);
-    this.setState({
-      size
-    });
   }
 
   // This function is responsible for returning a corresponding URL
@@ -120,8 +100,6 @@ class Choice extends Component {
             style={{
               backgroundImage: this.serveUrl(this.props.choice),
               filter: 'brigthness(110%)',
-              width: this.state.size + 'px',
-              height: this.state.size + 'px'
             }}>
             <div className='Chosen'>CHOSEN</div>
           </button>
@@ -131,8 +109,6 @@ class Choice extends Component {
             style={{
               backgroundImage: this.serveUrl(this.props.choice),
               filter: 'grayscale(15%)',
-              width: this.state.size + 'px',
-              height: this.state.size + 'px'
             }}>
             <div className='NotChosen'>{this.props.choice}</div>
           </button>

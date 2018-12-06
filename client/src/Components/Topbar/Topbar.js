@@ -20,22 +20,32 @@ button appears on the right corner of the bar.
 class Topbar extends Component {
 
   static propTypes = {
-    AppLogout: PropTypes.func,
-    getWidth: PropTypes.func
+    AppLogout: PropTypes.func
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      width: this.props.getWidth(),
+      width: this.screenWidth(),
       littleWidth: false,
       responsiveBar: false
     }
   }
 
+
+  // This function is responsible for checking the screen width in order to 
+  // optimally fit the images size to the screen
+  screenWidth = () => {
+    try {
+      return document.body.clientWidth;
+    } catch (err) {
+      return 950;
+    }
+  }
+
   componentDidMount() {
     window.addEventListener('resize', this.handleResize);
-    this.setState({ width: this.props.getWidth() });
+    this.setState({ width: this.screenWidth() });
   }
 
   componentWillUnmount() {
@@ -52,7 +62,7 @@ class Topbar extends Component {
   // with the current screen width after every resize, and also updates 'littleWidth' in the 
   // state to true if the width went below 700px
   handleResize = () => {
-    const width = this.props.getWidth();
+    const width = this.screenWidth();
     if (width < 700) {
       this.setState({ width: width, littleWidth: true })
     } else {

@@ -11,7 +11,6 @@ import 'toastr/toastr.css';
 class Image extends React.Component {
   static propTypes = {
     obj: PropTypes.object,
-    screenWidth: PropTypes.number,
     base: PropTypes.string,
     onRemoveImage: PropTypes.func
   };
@@ -19,29 +18,8 @@ class Image extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      size: 200,
       isOpen: false
     };
-  }
-
-  componentDidMount() {
-    this.getSize();
-  }
-
-  componentWillReceiveProps(props) {
-    this.getSize();
-  }
-
-  // This function calculates the image size when the app loads and updates 
-  // the 'size' entry in state after every screen resize event
-  getSize = () => {
-    const {screenWidth} = this.props;
-    const targetSize = 200;
-    const imagesInRow = Math.round(screenWidth / targetSize);
-    const size = (screenWidth / imagesInRow);
-    this.setState({
-      size
-    });
   }
 
   // This function constructs the url of the image by it's info object
@@ -116,9 +94,7 @@ class Image extends React.Component {
         <div
           className="image"
           style={{
-            backgroundImage: `url(${this.urlFromObj(this.props.obj)})`,
-            width: this.state.size + 'px',
-            height: this.state.size + 'px'
+            backgroundImage: `url(${this.urlFromObj(this.props.obj)})`
           }}
           >
           <span> {this.state.isOpen && <Modal src={this.urlFromObj(this.props.obj)} onClose={this.onClose} />} </span>

@@ -13,26 +13,19 @@ class Favorites extends Component {
   constructor(props){
     super(props);
     this.state = {
-      list: [],
-      favoritesWidth: this.props.getWidth()
+      list: []
     }
   }
 
   static propTypes = {
-    Username: PropTypes.string,
-    getWidth: PropTypes.func
+    Username: PropTypes.string
   };
 
   componentDidMount() {
-    window.addEventListener('resize', this.handleResize);
     this.getFavorites();
-    this.setState({
-      favoritesWidth: document.body.clientWidth
-    });
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
     this.isUnmounted = true; // Kills not returned promises
   }
 
@@ -49,11 +42,6 @@ class Favorites extends Component {
     this.getFavorites();
   }
 
-  // This handler is called every time that the screen size changes
-  handleResize = () => this.setState({
-      favoritesWidth: this.props.getWidth()
-  });
-
   // React keeps track of the object in the DOM, so it needs that we'll use an 
   // unique key id for every element that we render by Array.map method, and we 
   // use the uuid package for generating such unique id's.
@@ -68,7 +56,6 @@ class Favorites extends Component {
                       <Image 
                         obj={item} 
                         key={uuid.v4()} 
-                        screenWidth={this.state.favoritesWidth} 
                         base='Favorites' 
                         onRemoveImage={this.onRemoveImage}
                       />

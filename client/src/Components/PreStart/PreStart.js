@@ -11,34 +11,16 @@ class PreStart extends Component {
 
   static propTypes = {
     CompleteRegistration: PropTypes.func,
-    Username: PropTypes.string,
-    getWidth: PropTypes.func
+    Username: PropTypes.string
   };
 
   constructor() {
     super();
     this.state = {
-      ChoicesWidth: 1000,
       numOfChoices: 0,
       choices: []
     };
   }
-
-  componentDidMount() {
-    window.addEventListener('resize', this.handleResize);
-    this.setState({
-      ChoicesWidth: document.body.clientWidth
-    });
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
-  }
-  
-  // This handler is called every time that the screen size changes
-  handleResize = () => this.setState({
-      ChoicesWidth: this.props.getWidth()
-  })
 
   // This function updates in the state the number of choices that are 
   // currently marked by the user
@@ -65,7 +47,7 @@ class PreStart extends Component {
           <span>Choose please from the following list</span>
         </div>
         {Start(this.state.numOfChoices,this.onSubmitChoices)}
-        <Choices ChoicesWidth={this.state.ChoicesWidth} updateChoices={this.updateChoices} />
+        <Choices updateChoices={this.updateChoices} />
       </div>
     );
   }

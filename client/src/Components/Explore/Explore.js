@@ -22,8 +22,7 @@ each of them, to manipulate each state without causing re-render to both, and ke
 class Explore extends Component {
 
 	static propTypes = {
-	    Username: PropTypes.string,
-	    getWidth: PropTypes.func
+	    Username: PropTypes.string
 	}
 
 	constructor() {
@@ -112,7 +111,7 @@ class Explore extends Component {
 			         : 
 			        (<div></div>)
 			    }
-				<Images tag={this.state.tag} getWidth={this.props.getWidth} />
+				<Images tag={this.state.tag} />
 			</div>
 		);
 	}
